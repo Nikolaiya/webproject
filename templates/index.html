@@ -2,19 +2,56 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device=device-width, initial-scale=1.0">
     <title>Учебное Хранилище</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header>
-        <div class="title">Учебное Хранилище</div>
-        <button class="auth-btn">Вход/Регистрация</button>
+        <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+        <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
     </header>
+
     <main>
         <h2>Выберите Курс</h2>
-        <div class="course-box"></div>
-        <div class="course-box"></div>
+        <a href="{{ url_for('python_course') }}" class="course-box">Основы программирования на языке Python</a>
+        <a href="{{ url_for('industrial_course') }}" class="course-box">Основы промышленного программирования</a>
     </main>
+
+    <!-- Затемняющий фон -->
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <!-- Модальное окно входа -->
+    <div id="loginModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Вход в аккаунт</h2>
+        <hr>
+        <input type="email" placeholder="Введите адрес электронной почты">
+        <input type="password" placeholder="Введите пароль">
+        <a href="#" class="forgot-password">Забыли пароль?</a>
+        <div class="modal-footer">
+            <a href="#" class="register-link" onclick="openRegister()">Зарегистрироваться</a>
+            <button class="modal-btn">Войти</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно регистрации -->
+    <div id="registerModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Регистрация</h2>
+        <hr>
+        <input type="text" placeholder="Введите имя">
+        <input type="text" placeholder="Введите Фамилию">
+        <input type="email" placeholder="Введите электронную почту" autocomplete="email">
+        <div class="date-container">
+            <input type="text" id="birthdate" placeholder="дд.мм.гг">
+            <span id="date-warning" class="warning-icon">⚠</span>
+        </div>
+        <input type="password" id="password" placeholder="Введите пароль" oninput="toggleRepeatPassword()">
+        <input type="password" id="repeatPassword" placeholder="Введите повторный пароль">
+        <button class="modal-btn" onclick="validateRegister()">Зарегистрироваться</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

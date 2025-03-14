@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курс "Основы промышленного программирования"</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+        <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+    </header>
+
+    <!-- Затемняющий фон -->
+    <div id="overlay" class="overlay" onclick="closeLogin()"></div>
+
+    <!-- Модальное окно входа -->
+    <div id="loginModal" class="login-modal">
+        <button class="close-btn" onclick="closeLogin()">✖</button>
+        <h2>Вход в аккаунт</h2>
+        <hr>
+        <input type="email" placeholder="Введите адрес электронной почты">
+        <input type="password" placeholder="Введите пароль">
+        <a href="#" class="forgot-password">Забыли пароль?</a>
+        <div class="login-footer">
+            <a href="#" class="register-link">Зарегистрироваться</a>
+            <button class="login-btn">Войти</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
