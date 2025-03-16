@@ -2,12 +2,13 @@ body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     height: 100vh;
     background-color: #f4f4f4;
     margin: 0;
     overflow: hidden;
+    padding-left: 0; /* Убрали отступ слева */
 }
 
 header {
@@ -35,45 +36,138 @@ header {
     opacity: 0.7;
 }
 
+/* Контейнер для кнопок */
+.auth-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Расстояние между кнопками */
+    margin-right: 40px; /* Отступ справа, как у auth-btn */
+}
+
+.new-btn {
+    position: relative; /* Для позиционирования подсказки */
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(to right, #A5A5A5, #e0e0e0);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+.new-btn:hover {
+    transform: scale(1.05);
+}
+
+.new-btn:active {
+    transform: scale(0.95, 0.9);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для всплывающей подсказки */
+.new-btn::after {
+    content: attr(data-tooltip); /* Используем текст из data-tooltip */
+    position: absolute;
+    top: 100%; /* Подсказка появляется под кнопкой */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Фон подсказки */
+    color: white; /* Цвет текста */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    white-space: nowrap; /* Текст в одну строку */
+    opacity: 0; /* Подсказка скрыта по умолчанию */
+    visibility: hidden; /* Подсказка скрыта по умолчанию */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Показываем подсказку при наведении */
+.new-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
 .auth-btn {
-    font-size: 12px;
+    width: 160px;
+    height: 30px;
+    font-size: 15px;
     padding: 5px 15px;
-    border: none;
     background: linear-gradient(to right, #A5A5A5, #e0e0e0);
     cursor: pointer;
-    margin-right: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
+    /* Убираем margin-right, так как отступ теперь в контейнере */
+}
+
+.auth-btn:hover {
+    transform: scale(1.05); /* Увеличение при наведении */
+}
+
+.auth-btn:active {
+    transform: scale(0.95, 0.9); /* Прогибание при нажатии */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Уменьшение тени */
 }
 
 main {
-    text-align: center;
-    margin-top: 120px;
+    text-align: left;
+    margin-top: 120px; /* Уменьшили отступ сверху */
+    width: 100%;
+    padding-left: 70px; /* Добавили отступ слева для всего контента */
 }
 
 h2 {
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 20px;
+    text-align: left;
+    margin-left: 0;
+}
+
+.course-container {
+    display: flex; /* Делаем контейнер flex */
+    flex-direction: row; /* Располагаем элементы в строку */
+    gap: 20px; /* Расстояние между кнопками */
 }
 
 .course-box {
-    width: 300px;
-    height: 90px;
-    margin: 15px;
+    width: 320px;
+    height: 180px;
     background: linear-gradient(to right, #A5A5A5, #e0e0e0);
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     text-decoration: none;
     color: black;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     cursor: pointer;
     user-select: none;
+    margin-left: 20px;
+    padding: 0 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid black; /* Добавлен тонкий черный контур */
 }
 
 .course-box:hover {
-    transform: scale(1.1);
+    transform: scale(1.05); /* Увеличение при наведении */
+}
+
+.course-box:active {
+    transform: scale(0.95, 0.9); /* Прогибание при нажатии */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Уменьшение тени */
 }
 
 /* Затемняющий фон */
@@ -104,9 +198,10 @@ h2 {
     text-align: center;
     opacity: 0;
     transition: top 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    border: 1px solid black;
 }
 
-/* Активное модальное окно */
+/* Активное модальное окна */
 .modal.active {
     top: 20%;
     opacity: 1;
@@ -156,16 +251,22 @@ hr {
     right: 10px;
     width: 30px;
     height: 30px;
-    border: none;
     border-radius: 50%;
     font-size: 16px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Добавлен плавный переход */
     background: linear-gradient(to right, #A5A5A5, #E0E0E0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Добавлена тень */
+    border: 1px solid black;
 }
 
 .close-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Увеличение при наведении */
+}
+
+.close-btn:active {
+    transform: scale(0.95, 0.9); /* Прогибание при нажатии */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Уменьшение тени */
 }
 
 /* Подвал окна */
@@ -205,7 +306,7 @@ input[type="email"] {
     align-items: center;
 }
 
-/* Восклицательный знак */
+/* Восклицательный знак ошибки */
 .warning-icon {
     position: absolute;
     right: 5px;
@@ -221,9 +322,9 @@ input[type="email"] {
     width: 40px;
 }
 
-/* Всплывающий текст при наведении */
+/* Всплывающая подсказка при наведении */
 .warning-icon::after {
-    content: "Введено некорректное значение";
+    content: attr(data-tooltip); /* Используем атрибут data-tooltip для текста */
     position: absolute;
     background: rgba(0, 0, 0, 0.8);
     color: white;
@@ -239,7 +340,6 @@ input[type="email"] {
     pointer-events: none;
 }
 
-
 .warning-icon:hover::after {
     opacity: 1;
 }
@@ -250,18 +350,26 @@ input[type="email"] {
     background-color: #ffe5e5;
 }
 
+
 /* Кнопка */
 .modal-btn {
     padding: 10px 15px;
-    border: none;
+    border: 1px solid black;
     background: linear-gradient(to right, #A5A5A5, #E0E0E0);
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Плавный переход */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Тень для объёма */
 }
 
 .modal-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Увеличение при наведении */
+}
+
+.modal-btn:active {
+    transform: scale(0.95, 0.9); /* Прогибание при нажатии */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Уменьшение тени */
 }
 
 /* Модальное окно входа */
@@ -278,6 +386,7 @@ input[type="email"] {
     text-align: center;
     opacity: 0;
     transition: top 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    border: 1px solid black;
 }
 
 .login-modal h2 {
@@ -304,15 +413,22 @@ input[type="email"] {
 
 .login-btn {
     padding: 10px 15px;
-    border: none;
     background: linear-gradient(to right, #A5A5A5, #e0e0e0);
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Плавный переход */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Тень для объёма */
+    border: 1px solid black;
 }
 
 .login-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Увеличение при наведении */
+}
+
+.login-btn:active {
+    transform: scale(0.95, 0.9); /* Прогибание при нажатии */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Уменьшение тени */
 }
 
 /* Когда открыто */

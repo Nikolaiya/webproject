@@ -9,24 +9,72 @@
 <body>
     <header>
         <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
-        <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+        <div class="auth-container">
+            <button class="new-btn" data-tooltip="Осталось просмотров ответов">
+                <span id="answer-count">0</span> <!-- Цифра -->
+                <img src="{{ url_for('static', filename='data/img.png') }}" alt="Icon" class="btn-icon" width="25" height="25">
+            </button>
+            <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+        </div>
     </header>
 
-    <!-- Затемняющий фон -->
-    <div id="overlay" class="overlay" onclick="closeLogin()"></div>
+<!-- Затемняющий фон -->
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
     <!-- Модальное окно входа -->
-    <div id="loginModal" class="login-modal">
-        <button class="close-btn" onclick="closeLogin()">✖</button>
+    <div id="loginModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
         <h2>Вход в аккаунт</h2>
         <hr>
-        <input type="email" placeholder="Введите адрес электронной почты">
-        <input type="password" placeholder="Введите пароль">
-        <a href="#" class="forgot-password">Забыли пароль?</a>
-        <div class="login-footer">
-            <a href="#" class="register-link">Зарегистрироваться</a>
-            <button class="login-btn">Войти</button>
+
+        <div class="date-container">
+            <input type="email" id="login-email" placeholder="Введите адрес электронной почты">
+            <span class="warning-icon">⚠</span>
         </div>
+
+        <div class="date-container">
+            <input type="password" id="login-password" placeholder="Введите пароль">
+            <span class="warning-icon">⚠</span>
+        </div>
+
+        <a href="#" class="forgot-password">Забыли пароль?</a>
+
+        <div class="modal-footer">
+            <a href="#" class="register-link" onclick="openRegister()">Зарегистрироваться</a>
+            <button class="modal-btn" onclick="validateLogin()">Войти</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно регистрации -->
+    <div id="registerModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Регистрация</h2>
+        <hr>
+        <div class="date-container">
+            <input type="text" id="name" placeholder="Введите имя">
+            <span class="warning-icon">⚠</span>
+        </div>
+        <div class="date-container">
+            <input type="text" id="surname" placeholder="Введите Фамилию">
+            <span class="warning-icon">⚠</span>
+        </div>
+        <div class="date-container">
+            <input type="email" id="email" placeholder="Введите электронную почту" autocomplete="email">
+            <span class="warning-icon">⚠</span>
+        </div>
+        <div class="date-container">
+            <input type="text" id="birthdate" placeholder="дд.мм.гг">
+            <span id="date-warning" class="warning-icon">⚠</span>
+        </div>
+        <div class="date-container">
+            <input type="password" id="password" placeholder="Введите пароль">
+            <span class="warning-icon">⚠</span>
+        </div>
+        <div class="date-container">
+            <input type="password" id="repeatPassword" placeholder="Введите повторный пароль">
+            <span class="warning-icon">⚠</span>
+        </div>
+        <button class="modal-btn" onclick="if (validateRegister()) { /* Действия при успешной регистрации */ }">Зарегистрироваться</button>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
