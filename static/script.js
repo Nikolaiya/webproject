@@ -5,10 +5,18 @@ function openLogin() {
 }
 
 function openRegister() {
-    closeAll();
-    document.getElementById("overlay").classList.add("active");
-    document.getElementById("registerModal").classList.add("active");
+    closeAll();  // Закрываем все окна перед открытием
+    let overlay = document.getElementById("overlay");
+    let registerModal = document.getElementById("registerModal");
+
+    if (overlay && registerModal) {
+        overlay.classList.add("active");
+        registerModal.classList.add("active");
+    } else {
+        console.error("❌ Ошибка: Окно регистрации не найдено в DOM");
+    }
 }
+
 
 function closeAll() {
     document.getElementById("overlay").classList.remove("active");
@@ -90,22 +98,30 @@ function validateRegister() {
 
     fields.forEach(field => {
         const input = document.getElementById(field.id);
-        const warningIcon = input.parentElement.querySelector(".warning-icon"); // Исправлено
+        const warningIcon = input.parentElement.querySelector(".warning-icon");
 
         if (!input.value.trim()) {
             input.classList.add("error-input");
-            if (warningIcon) {
-                warningIcon.style.display = "flex";
-                warningIcon.setAttribute("data-tooltip", field.message);
-            }
+            warningIcon.style.display = "flex";
+            warningIcon.setAttribute("data-tooltip", field.message);
             isValid = false;
         } else {
             input.classList.remove("error-input");
-            if (warningIcon) {
-                warningIcon.style.display = "none";
-            }
+            warningIcon.style.display = "none";
         }
     });
+
+    const password = document.getElementById("password").value;
+    const repeatPassword = document.getElementById("repeatPassword").value;
+    if (password !== repeatPassword) {
+        const repeatPassInput = document.getElementById("repeatPassword");
+        const warningIcon = repeatPassInput.parentElement.querySelector(".warning-icon");
+
+        repeatPassInput.classList.add("error-input");
+        warningIcon.style.display = "flex";
+        warningIcon.setAttribute("data-tooltip", "Пароли не совпадают");
+        isValid = false;
+    }
 
     // Проверка даты рождения (если она не пустая)
     const birthdate = document.getElementById("birthdate");
@@ -189,3 +205,43 @@ function decreaseAnswerCount() {
 
 // Инициализация начального значения (0)
 updateAnswerCount(0);
+
+function toggleMenu() {
+    let menu = document.getElementById("userMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+// Закрываем меню, если кликнули вне его
+document.addEventListener("click", function (event) {
+    let menu = document.getElementById("userMenu");
+    let btn = document.querySelector(".user-btn");
+
+    if (menu && btn && !btn.contains(event.target) && !menu.contains(event.target)) {
+        menu.style.display = "none";
+    }
+});
+
+
+function sendRegisterForm() {
+    if (!validateRegister()) return; // Проверяем форму перед отправкой
+
+    let formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+    formData.append("surname", document.getElementById("surname").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("password", document.getElementById("password").value);
+
+    fetch("/register", {
+        method: "POST",
+        body: formData
+    }).then(response => {
+        if (response.redirected) {
+            window.location.href = response.url; // Если редирект, переходим на главную
+        } else {
+            return response.text();
+        }
+    }).then(text => {
+        if (text) alert(text); // Показываем ошибку, если есть
+    }).catch(error => console.error("Ошибка запроса:", error));
+}
+
