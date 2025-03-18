@@ -9,19 +9,25 @@
 <body>
     <header>
         <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+
         <div class="auth-container">
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">
-                <span id="answer-count">0</span> <!-- Цифра -->
+                <span id="answer-count">0</span>
                 <img src="{{ url_for('static', filename='data/img.png') }}" alt="Icon" class="btn-icon" width="25" height="25">
             </button>
-            <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+            {% if user %}
+                <button class="user-btn" onclick="toggleMenu()">{{ user }}</button>
+                <div class="user-menu" id="userMenu">
+                    <a href="{{ url_for('logout') }}" class="logout-btn">↩ Выйти</a>
+                </div>
+            {% else %}
+                <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+            {% endif %}
         </div>
     </header>
 
-<!-- Затемняющий фон -->
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
-    <!-- Модальное окно входа -->
     <div id="loginModal" class="modal">
         <button class="close-btn" onclick="closeAll()">✖</button>
         <h2>Вход в аккаунт</h2>
@@ -41,11 +47,10 @@
 
         <div class="modal-footer">
             <a href="#" class="register-link" onclick="openRegister()">Зарегистрироваться</a>
-            <button class="modal-btn" onclick="validateLogin()">Войти</button>
+            <button id="login-btn" class="modal-btn">Войти</button>
         </div>
     </div>
 
-    <!-- Модальное окно регистрации -->
     <div id="registerModal" class="modal">
         <button class="close-btn" onclick="closeAll()">✖</button>
         <h2>Регистрация</h2>
@@ -74,7 +79,7 @@
             <input type="password" id="repeatPassword" placeholder="Введите повторный пароль">
             <span class="warning-icon">⚠</span>
         </div>
-        <button class="modal-btn" onclick="if (validateRegister()) { /* Действия при успешной регистрации */ }">Зарегистрироваться</button>
+        <button id="register-btn" class="modal-btn">Зарегистрироваться</button>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

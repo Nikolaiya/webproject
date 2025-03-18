@@ -28,16 +28,14 @@
 
     <main>
         <h2>Выберите Курс</h2>
-        <div class="course-container"> <!-- Добавлен контейнер для кнопок -->
+        <div class="course-container">
             <a href="{{ url_for('python_course') }}" class="course-box">Основы программирования на языке Python</a>
             <a href="{{ url_for('industrial_course') }}" class="course-box">Основы промышленного программирования</a>
         </div>
     </main>
 
-    <!-- Затемняющий фон -->
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
-    <!-- Модальное окно входа -->
     <div id="loginModal" class="modal">
         <button class="close-btn" onclick="closeAll()">✖</button>
         <h2>Вход в аккаунт</h2>
@@ -57,11 +55,10 @@
 
         <div class="modal-footer">
             <a href="#" class="register-link" onclick="openRegister()">Зарегистрироваться</a>
-            <button class="modal-btn" onclick="validateLogin()">Войти</button>
+            <button id="login-btn" class="modal-btn">Войти</button>
         </div>
     </div>
 
-    <!-- Модальное окно регистрации -->
     <div id="registerModal" class="modal">
         <button class="close-btn" onclick="closeAll()">✖</button>
         <h2>Регистрация</h2>
@@ -90,9 +87,8 @@
             <input type="password" id="repeatPassword" placeholder="Введите повторный пароль">
             <span class="warning-icon">⚠</span>
         </div>
-        <button class="modal-btn" onclick="sendRegisterForm()">Зарегистрироваться</button>
+        <button id="register-btn" class="modal-btn">Зарегистрироваться</button>
     </div>
-
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
