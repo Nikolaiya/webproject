@@ -404,6 +404,74 @@ input[type="email"] {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    display: none !important;
+}
+
+
+.password-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Отступ для нашей иконки глаза */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 40px;
+    top: 17px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    user-select: none;
+    display: none; /* Скрываем значок по умолчанию */
+}
+
+.toggle-password.visible {
+    display: inline-block; /* Показываем значок, если поле не пустое */
+}
+
+.empty-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.empty-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register-link {
+    color: blue;
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
+}
+
 .login-modal {
     position: fixed;
     top: -100%;
