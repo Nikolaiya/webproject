@@ -419,7 +419,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 
 .password-container input {
     width: 100%;
-    padding-right: 40px; /* Отступ для нашей иконки глаза */
+    padding-right: 40px;
 }
 
 .toggle-password {
@@ -431,11 +431,11 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
     color: #666;
     font-size: 18px;
     user-select: none;
-    display: none; /* Скрываем значок по умолчанию */
+    display: none;
 }
 
 .toggle-password.visible {
-    display: inline-block; /* Показываем значок, если поле не пустое */
+    display: inline-block;
 }
 
 .empty-modal {
