@@ -1,9 +1,11 @@
+// Функция для открытия окна входа
 function openLogin() {
     closeAll();
     document.getElementById("overlay").classList.add("active");
     document.getElementById("loginModal").classList.add("active");
 }
 
+// Функция для открытия окна регистрации
 function openRegister() {
     closeAll();
     let overlay = document.getElementById("overlay");
@@ -17,42 +19,43 @@ function openRegister() {
     }
 }
 
+// Функция для переключения видимости пароля
 function togglePasswordVisibility(inputId) {
     const input = document.getElementById(inputId);
     const toggleIcon = document.querySelector(`#${inputId} + .toggle-password`);
 
     if (input.type === "password") {
         input.type = "text";
-        toggleIcon.textContent = "👁️"; // Меняем иконку на "глаз открыт"
+        toggleIcon.textContent = "👁️";
     } else {
         input.type = "password";
-        toggleIcon.textContent = "👁️‍🗨️"; // Меняем иконку на "глаз закрыт"
+        toggleIcon.textContent = "👁️‍🗨️";
     }
 }
 
+// Функция для обработки ввода пароля
 function handlePasswordInput(input) {
     const toggleIcon = input.nextElementSibling;
     if (input.value.length > 0) {
-        toggleIcon.classList.add("visible"); // Показываем значок, если поле не пустое
+        toggleIcon.classList.add("visible");
     } else {
-        toggleIcon.classList.remove("visible"); // Скрываем значок, если поле пустое
+        toggleIcon.classList.remove("visible");
     }
 }
 
+// Функция для закрытия окна и сброса полей ввода
 function closeAll() {
-    // Закрываем модальные окна
     document.getElementById("overlay").classList.remove("active");
     document.getElementById("loginModal").classList.remove("active");
     document.getElementById("registerModal").classList.remove("active");
 
-    // Очищаем поля и скрываем значки глаза
     const loginFields = document.querySelectorAll("#loginModal input");
     loginFields.forEach(field => {
         field.value = "";
         field.classList.remove("error-input");
         const toggleIcon = field.nextElementSibling;
         if (toggleIcon && toggleIcon.classList.contains('toggle-password')) {
-            toggleIcon.classList.remove("visible"); // Скрываем значок глаза
+            toggleIcon.classList.remove("visible");
         }
     });
 
@@ -62,7 +65,7 @@ function closeAll() {
         field.classList.remove("error-input");
         const toggleIcon = field.nextElementSibling;
         if (toggleIcon && toggleIcon.classList.contains('toggle-password')) {
-            toggleIcon.classList.remove("visible"); // Скрываем значок глаза
+            toggleIcon.classList.remove("visible");
         }
     });
 
@@ -72,26 +75,25 @@ function closeAll() {
     });
 }
 
+// Инициализация при загрузке страницы
 document.addEventListener("DOMContentLoaded", function () {
     const passwordInputs = document.querySelectorAll('.password-container input[type="password"]');
     passwordInputs.forEach(input => {
-        // Создаем значок глаза, если он ещё не добавлен
         if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('toggle-password')) {
             const toggleIcon = document.createElement('span');
             toggleIcon.className = 'toggle-password';
-            toggleIcon.textContent = "👁️‍🗨️"; // Иконка по умолчанию (глаз закрыт)
+            toggleIcon.textContent = "👁️‍🗨️";
             toggleIcon.onclick = () => togglePasswordVisibility(input.id);
             input.parentNode.appendChild(toggleIcon);
 
-            // Добавляем обработчик события ввода
             input.addEventListener('input', () => handlePasswordInput(input));
 
-            // Проверяем поле при загрузке страницы (на случай, если поле уже заполнено)
             handlePasswordInput(input);
         }
     });
 });
 
+// Функция для валидации входа
 function validateLogin() {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
@@ -114,27 +116,7 @@ function validateLogin() {
     .catch(error => console.error('Ошибка:', error));
 }
 
-function validatePassword(password) {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    if (password.length < minLength) {
-        return "Пароль должен содержать минимум 8 символов.";
-    }
-    if (!hasUpperCase) {
-        return "Пароль должен содержать хотя бы одну букву в верхнем регистре.";
-    }
-    if (!hasLowerCase) {
-        return "Пароль должен содержать хотя бы одну букву в нижнем регистре.";
-    }
-    if (!hasSpecialChar) {
-        return "Пароль должен содержать хотя бы один специальный символ (!, @, #, и т.д.).";
-    }
-    return null; // Пароль валиден
-}
-
+// Функция для валидации регистрации
 function validateRegister() {
     const name = document.getElementById("name").value;
     const surname = document.getElementById("surname").value;
@@ -161,11 +143,12 @@ function validateRegister() {
     .catch(error => console.error('Ошибка:', error));
 }
 
+// Функция для переключения меню пользователя
 function toggleMenu() {
     let menu = document.getElementById("userMenu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
-
+// Закрывает меню пользователя при клике вне его области
 document.addEventListener("click", function (event) {
     let menu = document.getElementById("userMenu");
     let btn = document.querySelector(".user-btn");
@@ -175,33 +158,14 @@ document.addEventListener("click", function (event) {
     }
 });
 
+// Добавляет обработчик клика на кнопку входа
 document.getElementById("login-btn").addEventListener("click", function(event) {
     event.preventDefault();
     validateLogin();
 });
 
+// Добавляет обработчик клика на кнопку регистрации
 document.getElementById("register-btn").addEventListener("click", function(event) {
     event.preventDefault();
     validateRegister();
 });
-
-function openSolutions() {
-    const solutionsCount = parseInt(document.getElementById("answer-count").textContent, 10);
-
-    if (solutionsCount === 0) {
-        // Открываем пустое белое окно
-        const emptyModal = document.createElement('div');
-        emptyModal.className = 'empty-modal';
-        emptyModal.innerHTML = `
-            <div class="empty-modal-content">
-                <p>У вас закончились просмотры решений.</p>
-            </div>
-        `;
-        document.body.appendChild(emptyModal);
-    } else {
-        // Логика для просмотра решений
-        alert("Просмотр решений...");
-    }
-}
-
-document.getElementById("new-btn").addEventListener("click", openSolutions);

@@ -1,3 +1,4 @@
+/* Основные стили для тела страницы */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -11,6 +12,7 @@ body {
     padding-left: 0;
 }
 
+/* Стили для шапки сайта */
 header {
     width: 100%;
     display: flex;
@@ -23,6 +25,7 @@ header {
     top: 0;
 }
 
+/* Стили для заголовка сайта */
 .title {
     font-size: 22px;
     font-weight: bold;
@@ -33,15 +36,18 @@ header {
     display: inline-block;
 }
 
+/* Стили для заголовка сайта при наведении */
 .title:hover {
     transform: scale(1.05);
     opacity: 0.7;
 }
 
+/* Стили для заголовка сайта при нажатии */
 .title:active {
     transform: scale(0.95);
 }
 
+/* Стили для контейнера авторизации */
 .auth-container {
     display: flex;
     align-items: center;
@@ -49,6 +55,7 @@ header {
     margin-right: 40px;
 }
 
+/* Стили для кнопки "новый" */
 .new-btn {
     position: relative;
     width: 40px;
@@ -68,16 +75,18 @@ header {
     color: black;
 }
 
+/* Стили для кнопки "новый" при наведении */
 .new-btn:hover {
     transform: scale(1.05);
 }
 
+/* Стили для кнопки "новый" при нажатии */
 .new-btn:active {
     transform: scale(0.95, 0.9);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-
+/* Стили для тултипа кнопки "новый" */
 .new-btn::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -95,11 +104,13 @@ header {
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
+/* Стили для тултипа кнопки "новый" при наведении */
 .new-btn:hover::after {
     opacity: 1;
     visibility: visible;
 }
 
+/* Стили для кнопки авторизации */
 .auth-btn {
     width: 160px;
     height: 30px;
@@ -113,15 +124,18 @@ header {
     border: 1px solid black;
 }
 
+/* Стили для кнопки авторизации при наведении */
 .auth-btn:hover {
     transform: scale(1.05);
 }
 
+/* Стили для кнопки авторизации при нажатии */
 .auth-btn:active {
     transform: scale(0.95, 0.9);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* Стили для кнопки пользователя */
 .user-btn {
     font-size: 15px;
     padding: 8px 15px;
@@ -134,14 +148,17 @@ header {
     background-color: white;
 }
 
+/* Стили для кнопки пользователя при наведении */
 .user-btn:hover {
     transform: scale(1.05);
 }
 
+/* Стили для кнопки пользователя при нажатии */
 .user-btn:active {
     transform: scale(0.95, 0.9);
 }
 
+/* Стили для меню пользователя */
 .user-menu {
     display: none;
     position: absolute;
@@ -153,6 +170,7 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Стили для ссылок в меню пользователя */
 .user-menu a {
     display: block;
     padding: 10px;
@@ -160,11 +178,12 @@ header {
     color: black;
 }
 
+/* Стили для ссылок в меню пользователя при наведении */
 .user-menu a:hover {
     background: #f4f4f4;
 }
 
-
+/* Стили для основного контента */
 main {
     text-align: left;
     margin-top: 120px;
@@ -172,6 +191,7 @@ main {
     padding-left: 70px;
 }
 
+/* Стили для заголовков второго уровня */
 h2 {
     font-size: 20px;
     margin-bottom: 20px;
@@ -179,12 +199,14 @@ h2 {
     margin-left: 0;
 }
 
+/* Стили для контейнера курсов */
 .course-container {
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
 
+/* Стили для блока курса */
 .course-box {
     width: 320px;
     height: 180px;
@@ -207,15 +229,18 @@ h2 {
     border: 1px solid black;
 }
 
+/* Стили для блока курса при наведении */
 .course-box:hover {
     transform: scale(1.05);
 }
 
+/* Стили для блока курса при нажатии */
 .course-box:active {
     transform: scale(0.95, 0.9);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* Стили для оверлея (затемнения фона) */
 .overlay {
     position: fixed;
     top: 0;
@@ -229,6 +254,7 @@ h2 {
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
+/* Стили для модального окна */
 .modal {
     position: fixed;
     top: -50vh;
@@ -245,17 +271,20 @@ h2 {
     transition: top 0.3s ease-out, opacity 0.3s ease-out;
 }
 
+/* Стили для активного модального окна */
 .modal.active {
     top: 20%;
     opacity: 1;
     visibility: visible;
 }
 
+/* Стили для заголовков в модальном окне */
 .modal h2 {
     font-size: 22px;
     margin-bottom: 10px;
 }
 
+/* Стили для горизонтальной линии */
 hr {
     border: none;
     height: 1px;
@@ -263,6 +292,7 @@ hr {
     margin-bottom: 15px;
 }
 
+/* Стили для полей ввода в модальном окне */
 .modal input {
     width: 100%;
     padding: 10px;
@@ -274,6 +304,7 @@ hr {
     box-sizing: border-box;
 }
 
+/* Стили для поля ввода даты рождения */
 #birthdate {
     width: 100%;
     padding: 10px;
@@ -285,6 +316,7 @@ hr {
     box-sizing: border-box;
 }
 
+/* Стили для кнопки закрытия модального окна */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -300,21 +332,25 @@ hr {
     border: 1px solid black;
 }
 
+/* Стили для кнопки закрытия модального окна при наведении */
 .close-btn:hover {
     transform: scale(1.1);
 }
 
+/* Стили для кнопки закрытия модального окна при нажатии */
 .close-btn:active {
     transform: scale(0.95, 0.9);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* Стили для футера модального окна */
 .modal-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Стили для ссылки на регистрацию */
 .register-link {
     color: blue;
     text-decoration: underline;
@@ -322,6 +358,7 @@ hr {
     cursor: pointer;
 }
 
+/* Стили для ссылки "Забыли пароль?" */
 .forgot-password {
     display: block;
     text-align: right;
@@ -331,10 +368,12 @@ hr {
     margin-bottom: 15px;
 }
 
+/* Стили для поля ввода email */
 input[type="email"] {
     autocomplete: email;
 }
 
+/* Стили для контейнера даты */
 .date-container {
     position: relative;
     width: 100%;
@@ -342,48 +381,13 @@ input[type="email"] {
     align-items: center;
 }
 
-.warning-icon {
-    position: absolute;
-    right: 5px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    color: red;
-    top: -15%;
-    display: none;
-    cursor: pointer;
-    width: 40px;
-}
-
-.warning-icon::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 12px;
-    white-space: nowrap;
-    top: 10%;
-    right: 110%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-}
-
-.warning-icon:hover::after {
-    opacity: 1;
-}
-
+/* Стили для поля ввода с ошибкой */
 .error-input {
     border-color: red;
     background-color: #ffe5e5;
 }
 
-
+/* Стили для кнопки в модальном окне */
 .modal-btn {
     padding: 10px 15px;
     border: 1px solid black;
@@ -395,21 +399,24 @@ input[type="email"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* Стили для кнопки в модальном окне при наведении */
 .modal-btn:hover {
     transform: scale(1.05);
 }
 
+/* Стили для кнопки в модальном окне при нажатии */
 .modal-btn:active {
     transform: scale(0.95, 0.9);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* Стили для скрытия иконки показа пароля */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-webkit-credentials-auto-fill-button {
     display: none !important;
 }
 
-
+/* Стили для контейнера пароля */
 .password-container {
     position: relative;
     width: 100%;
@@ -417,11 +424,13 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
     align-items: center;
 }
 
+/* Стили для поля ввода пароля */
 .password-container input {
     width: 100%;
     padding-right: 40px;
 }
 
+/* Стили для иконки переключения видимости пароля */
 .toggle-password {
     position: absolute;
     right: 40px;
@@ -434,37 +443,19 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
     display: none;
 }
 
+/* Стили для видимой иконки переключения пароля */
 .toggle-password.visible {
     display: inline-block;
 }
 
-.empty-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.empty-modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
+/* Стили для футера модального окна */
 .modal-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Стили для ссылки на регистрацию */
 .register-link {
     color: blue;
     text-decoration: underline;
@@ -472,69 +463,13 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
     cursor: pointer;
 }
 
-.login-modal {
-    position: fixed;
-    top: -100%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 350px;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    opacity: 0;
-    transition: top 0.4s ease-in-out, opacity 0.4s ease-in-out;
-    border: 1px solid black;
-}
-
-.login-modal h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.login-modal input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    text-align: left;
-    box-sizing: border-box;
-}
-
-.login-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.login-btn {
-    padding: 10px 15px;
-    background: linear-gradient(to right, #A5A5A5, #e0e0e0);
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    border: 1px solid black;
-}
-
-.login-btn:hover {
-    transform: scale(1.05);
-}
-
-.login-btn:active {
-    transform: scale(0.95, 0.9);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
+/* Стили для активного оверлея */
 .overlay.active {
     opacity: 1;
     visibility: visible;
 }
 
+/* Стили для активного модального окна входа */
 .login-modal.active {
     top: 20%;
     opacity: 1;

@@ -8,11 +8,11 @@ app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 
 
-def hash_password(password):
+def hash_password(password): # Хэширует пароль
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-def init_db():
+def init_db(): # Инициализирует бд
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     cursor.execute('''
@@ -35,7 +35,7 @@ def init_db():
 init_db()
 
 
-def get_user_ip():
+def get_user_ip(): # Получает IP-адрес
     if request.headers.getlist("X-Forwarded-For"):
         ip = request.headers.getlist("X-Forwarded-For")[0]
     else:
@@ -44,7 +44,7 @@ def get_user_ip():
 
 
 @app.route('/validate_login', methods=['POST'])
-def validate_login():
+def validate_login(): # Обрабатывает запрос на вход пользователя
     data = request.json
     email = data.get('email', '').strip()
     password = data.get('password', '').strip()
@@ -89,7 +89,7 @@ def validate_login():
     return jsonify({"success": True, "message": "Вход выполнен успешно"})
 
 
-def validate_password(password):
+def validate_password(password): # Проверяет, соответствует ли пароль требованиям
     if len(password) < 8:
         return False, "Пароль должен содержать минимум 8 символов."
 
@@ -106,7 +106,7 @@ def validate_password(password):
 
 
 @app.route('/validate_register', methods=['POST'])
-def validate_register():
+def validate_register(): # брабатывает запрос на регистрацию пользователя
     data = request.json
     name = data.get('name')
     surname = data.get('surname')
@@ -155,24 +155,24 @@ def validate_register():
 
 
 @app.route('/')
-def home():
+def home(): # Главная страница
     return render_template('index.html', user=session.get("user"), solutions_count=session.get("solutions_count", 0))
 
 
 @app.route('/python-course')
-def python_course():
+def python_course(): # Курс 1
     return render_template('python_course.html', user=session.get("user"),
                            solutions_count=session.get("solutions_count", 0))
 
 
 @app.route('/industrial-course')
-def industrial_course():
+def industrial_course(): # Курс 2
     return render_template('industrial_course.html', user=session.get("user"),
                            solutions_count=session.get("solutions_count", 0))
 
 
 @app.route('/logout')
-def logout():
+def logout(): # Обрабатывает выход пользователя из системы
     if "user" in session:
         email = session["user"].split()[1]
         solutions_count = session.get("solutions_count", 0)
