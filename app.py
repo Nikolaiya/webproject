@@ -12,19 +12,20 @@ def hash_password(password): # Хэширует пароль
     return hashlib.sha256(password.encode()).hexdigest()
 
 
-def init_db(): # Инициализирует бд
+def init_db():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-			action TEXT NOT NULL,
+            action TEXT NOT NULL,
             ip TEXT NOT NULL,
             time TEXT NOT NULL,
             name TEXT NOT NULL,
             surname TEXT NOT NULL,
             email TEXT NOT NULL,
             password TEXT NOT NULL,
+            birthdate TEXT,  -- Добавляем поле для даты рождения
             solutions_count INTEGER DEFAULT 0
         )
     ''')
@@ -33,6 +34,60 @@ def init_db(): # Инициализирует бд
 
 
 init_db()
+
+def init_materials_db():
+    conn = sqlite3.connect('materials.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS topics (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            course_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            description TEXT,
+            created_at TEXT NOT NULL
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS materials (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            topic_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            content TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (topic_id) REFERENCES topics (id)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS solutions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            material_id INTEGER NOT NULL,
+            content TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (material_id) REFERENCES materials (id)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS custom_solutions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            material_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            content TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (material_id) REFERENCES materials (id),
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+    # Добавим начальные данные
+    cursor.execute('SELECT COUNT(*) FROM topics WHERE course_id = 2 AND title = "Telegram bot"')
+    if cursor.fetchone()[0] == 0:
+        cursor.execute('''
+            INSERT INTO topics (course_id, title, description, created_at)
+            VALUES (2, "Telegram bot", "Основы создания Telegram ботов", ?)
+        ''', (datetime.now().strftime("%Y-%m-%d %H:%M:%S"),))
+    conn.commit()
+    conn.close()
+
+init_materials_db()
 
 
 def get_user_ip(): # Получает IP-адрес
@@ -57,7 +112,7 @@ def validate_login(): # Обрабатывает запрос на вход по
     existing_user = cursor.fetchone()
 
     if existing_user:
-        name, surname, email, solutions_count = existing_user[4], existing_user[5], existing_user[6], existing_user[8]
+        name, surname, email, birthdate, solutions_count = existing_user[4], existing_user[5], existing_user[6], existing_user[8], existing_user[9]
     else:
         if not email or not password:
             conn.close()
@@ -70,15 +125,15 @@ def validate_login(): # Обрабатывает запрос на вход по
             conn.close()
             return jsonify({"success": False, "message": "Неверный email или пароль"})
 
-        name, surname, solutions_count = user[4], user[5], user[8]
+        name, surname, birthdate, solutions_count = user[4], user[5], user[8], user[9]
 
     ip = get_user_ip()
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     cursor.execute('''
-        INSERT INTO users (action, ip, time, name, surname, email, password, solutions_count)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ''', ("login", ip, time, name, surname, email, hash_password(password if password else ""), solutions_count))
+        INSERT INTO users (action, ip, time, name, surname, email, password, birthdate, solutions_count)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', ("login", ip, time, name, surname, email, hash_password(password if password else ""), birthdate, solutions_count))
 
     conn.commit()
     conn.close()
@@ -106,14 +161,14 @@ def validate_password(password): # Проверяет, соответствуе�
 
 
 @app.route('/validate_register', methods=['POST'])
-def validate_register(): # брабатывает запрос на регистрацию пользователя
+def validate_register():
     data = request.json
     name = data.get('name')
     surname = data.get('surname')
     email = data.get('email')
     password = data.get('password')
     repeat_password = data.get('repeat_password')
-    birthdate = data.get('birthdate')
+    birthdate = data.get('birthdate')  # Получаем дату рождения
 
     if not name or not surname or not email or not password or not repeat_password or not birthdate:
         return jsonify({"success": False, "message": "Все поля должны быть заполнены"})
@@ -139,9 +194,9 @@ def validate_register(): # брабатывает запрос на регист
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         cursor.execute('''
-            INSERT INTO users (action, ip, time, name, surname, email, password, solutions_count)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', ("register", ip, time, name, surname, email, hash_password(password), 3))
+            INSERT INTO users (action, ip, time, name, surname, email, password, birthdate, solutions_count)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', ("register", ip, time, name, surname, email, hash_password(password), birthdate, 3))
         conn.commit()
 
         session["user"] = f"{name} {surname}"
@@ -152,6 +207,66 @@ def validate_register(): # брабатывает запрос на регист
         conn.close()
 
     return jsonify({"success": True, "message": "Регистрация прошла успешно"})
+
+@app.route('/validate_account_data', methods=['POST'])
+def validate_account_data():
+    data = request.json
+    name = data.get('name')
+    surname = data.get('surname')
+    email = data.get('email')
+    birthdate = data.get('birthdate')  # Получаем дату рождения
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    # Проверяем, совпадают ли данные с базой данных
+    cursor.execute('SELECT * FROM users WHERE name = ? AND surname = ? AND email = ? AND birthdate = ?',
+                   (name, surname, email, birthdate))
+    user = cursor.fetchone()
+
+    conn.close()
+
+    if user:
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False, "message": "Введённые вами данные аккаунта различны с данными регистрации"})
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    data = request.json
+    new_password = data.get('newPassword')
+    email = data.get('email')  # Получаем email из запроса
+
+    if not new_password or not email:
+        return jsonify({"success": False, "message": "Недостаточно данных для смены пароля"})
+
+    # Проверяем сложность пароля
+    is_valid, message = validate_password(new_password)
+    if not is_valid:
+        return jsonify({"success": False, "message": message})
+
+    # Хэшируем новый пароль
+    hashed_password = hash_password(new_password)
+
+    # Обновляем пароль в базе данных
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    cursor.execute('UPDATE users SET password = ? WHERE email = ?', (hashed_password, email))
+    conn.commit()
+
+    # Получаем данные пользователя для создания сессии
+    cursor.execute('SELECT name, surname, solutions_count FROM users WHERE email = ?', (email,))
+    user = cursor.fetchone()
+
+    if user:
+        name, surname, solutions_count = user
+        session["user"] = f"{name} {surname}"  # Создаем сессию
+        session["solutions_count"] = solutions_count
+
+    conn.close()
+
+    return jsonify({"success": True, "message": "Пароль успешно изменён"})
 
 
 @app.route('/')
@@ -166,9 +281,23 @@ def python_course(): # Курс 1
 
 
 @app.route('/industrial-course')
-def industrial_course(): # Курс 2
-    return render_template('industrial_course.html', user=session.get("user"),
-                           solutions_count=session.get("solutions_count", 0))
+def industrial_course():
+    conn = sqlite3.connect('materials.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT title FROM topics WHERE course_id = 2')
+    topics = cursor.fetchall()
+    conn.close()
+
+    return render_template('industrial_course.html',
+                           user=session.get("user"),
+                           solutions_count=session.get("solutions_count", 0),
+                           topics=topics)
+
+@app.route('/industrial-course/PyGame7')
+def telegram_bot():
+    return render_template('PyGame7.html',
+                         user=session.get("user"),
+                         solutions_count=session.get("solutions_count", 0))
 
 
 @app.route('/logout')

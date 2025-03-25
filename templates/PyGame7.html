@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyGame7</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="course-header">
+        <h1>Учебное Хранилище</h1>
+
+        <div class="auth-container">
+            {% if user %}
+                <button class="user-btn" onclick="toggleMenu()">{{ user }}</button>
+                <div class="user-menu" id="userMenu">
+                    <a href="{{ url_for('logout') }}" class="logout-btn">↩ Выйти</a>
+                </div>
+            {% else %}
+                <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+            {% endif %}
+        </div>
+    </header>
+
+
+
+    <main class="tasks-main">
+        <h2 class="back-link" onclick="window.location.href='{{ url_for('industrial_course') }}'">← Назад к курсу</h2>
+        <h2>Материалы</h2>
+        <div class="material-buttons">
+            <div class="material-btn">Учебник</div>
+            <div class="material-btn">Видео</div>
+        </div>
+
+        <h2>Классные задания</h2>
+        <div class="task-container">
+            <div class="task-box">Перемещение героя</div>
+        </div>
+
+        <h2>Домашние задания</h2>
+        <div class="task-container">
+            <div class="task-box">Перемещение героя. Дополнительные уровни</div>
+            <div class="task-box">Перемещение героя. Камера</div>
+        </div>
+
+        <h2>Дополнительные задания</h2>
+        <div class="task-container">
+            <div class="task-box">Перемещение героя. Новый уровень</div>
+        </div>
+    </main>
+
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+    <!-- ... остальные модальные окна ... -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

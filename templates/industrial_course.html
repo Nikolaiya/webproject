@@ -26,6 +26,14 @@
         </div>
     </header>
 
+    <main style="min-height: calc(100vh - 120px);">  <!-- Добавлен inline-style -->
+        <h2>Темы курса</h2>
+        <div class="topic-container">
+            <div class="topic-box" onclick="window.location.href='{{ url_for('telegram_bot') }}'">PyGame7 (Игра в целом)</div>
+        </div>
+    </main>
+
+    <!-- Остальной код (модальные окна) остается без изменений -->
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
     <div id="loginModal" class="modal">

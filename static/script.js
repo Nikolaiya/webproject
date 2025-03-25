@@ -48,6 +48,8 @@ function closeAll() {
     document.getElementById("overlay").classList.remove("active");
     document.getElementById("loginModal").classList.remove("active");
     document.getElementById("registerModal").classList.remove("active");
+    document.getElementById("forgotPasswordModal").classList.remove("active");
+    document.getElementById("newPasswordModal").classList.remove("active");
 
     const loginFields = document.querySelectorAll("#loginModal input");
     loginFields.forEach(field => {
@@ -168,4 +170,95 @@ document.getElementById("login-btn").addEventListener("click", function(event) {
 document.getElementById("register-btn").addEventListener("click", function(event) {
     event.preventDefault();
     validateRegister();
+});
+
+document.querySelector(".forgot-password").addEventListener("click", function (event) {
+    event.preventDefault();
+    closeAll();
+    document.getElementById("overlay").classList.add("active");
+    document.getElementById("forgotPasswordModal").classList.add("active");
+});
+
+// Функция для проверки данных аккаунта
+function validateAccountData() {
+    const name = document.getElementById("forgot-name").value;
+    const surname = document.getElementById("forgot-surname").value;
+    const email = document.getElementById("forgot-email").value;
+    const birthdate = document.getElementById("forgot-birthdate").value;
+
+    // Отправляем данные на сервер для проверки
+    fetch('/validate_account_data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, surname, email, birthdate }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Если данные совпадают, открываем окно для ввода нового пароля
+            closeAll();
+            document.getElementById("overlay").classList.add("active");
+            document.getElementById("newPasswordModal").classList.add("active");
+        } else {
+            // Если данные не совпадают, показываем сообщение об ошибке
+            alert("Введённые вами данные аккаунта различны с данными регистрации");
+        }
+    })
+    .catch(error => console.error('Ошибка:', error));
+}
+
+// Добавляем обработчик для кнопки "Продолжить" в окне восстановления пароля
+document.getElementById("forgot-submit-btn").addEventListener("click", function (event) {
+    event.preventDefault();
+    validateAccountData(); // Вызываем функцию проверки данных
+});
+
+// Функция для смены пароля
+function changePassword() {
+    const newPassword = document.getElementById("new-password").value;
+    const confirmNewPassword = document.getElementById("confirm-new-password").value;
+    const email = document.getElementById("forgot-email").value;  // Получаем email из формы восстановления пароля
+
+    if (newPassword !== confirmNewPassword) {
+        alert("Пароли не совпадают");
+        return;
+    }
+
+    // Отправляем новый пароль и email на сервер
+    fetch('/change_password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newPassword, email }),  // Передаем email
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Пароль успешно изменён. Вы будете перенаправлены на главную страницу.");
+            window.location.href = '/';  // Перенаправляем на главную страницу
+        } else {
+            alert(data.message);  // Показываем сообщение об ошибке
+        }
+    })
+    .catch(error => console.error('Ошибка:', error));
+}
+
+// Добавляем обработчик для кнопки "Сохранить" в окне нового пароля
+document.getElementById("new-password-submit-btn").addEventListener("click", function (event) {
+    event.preventDefault();
+    changePassword(); // Вызываем функцию смены пароля
+});
+
+// Можно добавить обработчики для заданий, если нужно
+document.querySelectorAll('.task-box').forEach(task => {
+    task.addEventListener('click', () => {
+        // Пока просто меняем цвет при клике
+        task.style.backgroundColor = '#e0e0e0';
+        setTimeout(() => {
+            task.style.backgroundColor = '';
+        }, 200);
+    });
 });
