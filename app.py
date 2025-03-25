@@ -3,14 +3,16 @@ import sqlite3
 import hashlib
 from datetime import datetime
 import re
+from industrial_cours.industrial_routes import industrial_bp  # Подключаем Blueprint
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 
+# Подключаем Blueprint
+app.register_blueprint(industrial_bp, url_prefix="/industrial-course")
 
-def hash_password(password): # Хэширует пароль
+def hash_password(password):  # Хэширует пароль
     return hashlib.sha256(password.encode()).hexdigest()
-
 
 def init_db():
     conn = sqlite3.connect('users.db')
@@ -25,69 +27,14 @@ def init_db():
             surname TEXT NOT NULL,
             email TEXT NOT NULL,
             password TEXT NOT NULL,
-            birthdate TEXT,  -- Добавляем поле для даты рождения
+            birthdate TEXT,
             solutions_count INTEGER DEFAULT 0
         )
     ''')
     conn.commit()
     conn.close()
 
-
 init_db()
-
-def init_materials_db():
-    conn = sqlite3.connect('materials.db')
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS topics (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            course_id INTEGER NOT NULL,
-            title TEXT NOT NULL,
-            description TEXT,
-            created_at TEXT NOT NULL
-        )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS materials (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            topic_id INTEGER NOT NULL,
-            title TEXT NOT NULL,
-            content TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            FOREIGN KEY (topic_id) REFERENCES topics (id)
-        )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS solutions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            material_id INTEGER NOT NULL,
-            content TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            FOREIGN KEY (material_id) REFERENCES materials (id)
-        )
-    ''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS custom_solutions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            material_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
-            content TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            FOREIGN KEY (material_id) REFERENCES materials (id),
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        )
-    ''')
-    # Добавим начальные данные
-    cursor.execute('SELECT COUNT(*) FROM topics WHERE course_id = 2 AND title = "Telegram bot"')
-    if cursor.fetchone()[0] == 0:
-        cursor.execute('''
-            INSERT INTO topics (course_id, title, description, created_at)
-            VALUES (2, "Telegram bot", "Основы создания Telegram ботов", ?)
-        ''', (datetime.now().strftime("%Y-%m-%d %H:%M:%S"),))
-    conn.commit()
-    conn.close()
-
-init_materials_db()
 
 
 def get_user_ip(): # Получает IP-адрес
@@ -279,25 +226,6 @@ def python_course(): # Курс 1
     return render_template('python_course.html', user=session.get("user"),
                            solutions_count=session.get("solutions_count", 0))
 
-
-@app.route('/industrial-course')
-def industrial_course():
-    conn = sqlite3.connect('materials.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT title FROM topics WHERE course_id = 2')
-    topics = cursor.fetchall()
-    conn.close()
-
-    return render_template('industrial_course.html',
-                           user=session.get("user"),
-                           solutions_count=session.get("solutions_count", 0),
-                           topics=topics)
-
-@app.route('/industrial-course/PyGame7')
-def telegram_bot():
-    return render_template('PyGame7.html',
-                         user=session.get("user"),
-                         solutions_count=session.get("solutions_count", 0))
 
 
 @app.route('/logout')

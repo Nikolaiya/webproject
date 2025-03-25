@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основы промышленного программирования</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  <!-- Основные стили -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/industrial_styles.css') }}">  <!-- Стили курса -->
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+
+        <div class="auth-container">
+            <button class="new-btn" data-tooltip="Осталось просмотров ответов">
+                <span id="answer-count">{{ solutions_count }}</span>
+                <img src="{{ url_for('static', filename='data/img.png') }}" alt="Icon" class="btn-icon" width="25" height="25">
+            </button>
+            {% if user %}
+                <button class="user-btn" onclick="toggleMenu()">{{ user }}</button>
+                <div class="user-menu" id="userMenu">
+                    <a href="{{ url_for('logout') }}" class="logout-btn">↩ Выйти</a>
+                </div>
+            {% else %}
+                <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        <h2 class="industrial-header">Темы курса</h2>
+        <div class="industrial-container">
+            {% for topic in topics %}
+                {% if topic[0] == "PyGame7" %}
+                    <div class="industrial-topic" data-url="{{ url_for('industrial.telegram_bot') }}">
+                        {{ topic[0] }}
+                    </div>
+                {% else %}
+                    <div class="industrial-topic">
+                        {{ topic[0] }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/industrial_script.js') }}"></script>
+</body>
+</html>

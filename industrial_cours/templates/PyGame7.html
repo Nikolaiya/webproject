@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyGame7</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  <!-- Основные стили -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/industrial_styles.css') }}">  <!-- Стили курса -->
 </head>
 <body>
     <header class="course-header">
@@ -22,14 +23,13 @@
         </div>
     </header>
 
-
-
     <main class="tasks-main">
-        <h2 class="back-link" onclick="window.location.href='{{ url_for('industrial_course') }}'">← Назад к курсу</h2>
+        <h2 class="back-link" onclick="window.location.href='{{ url_for('industrial.industrial_course') }}'">← Назад к курсу</h2>
+
         <h2>Материалы</h2>
         <div class="material-buttons">
-            <div class="material-btn">Учебник</div>
-            <div class="material-btn">Видео</div>
+            <button class="material-btn">Учебник</button>
+            <button class="material-btn">Видео</button>
         </div>
 
         <h2>Классные задания</h2>
@@ -39,19 +39,16 @@
 
         <h2>Домашние задания</h2>
         <div class="task-container">
-            <div class="task-box">Перемещение героя. Дополнительные уровни</div>
-            <div class="task-box">Перемещение героя. Камера</div>
+            <div class="task-box">Дополнительные уровни</div>
+            <div class="task-box">Камера</div>
         </div>
 
         <h2>Дополнительные задания</h2>
         <div class="task-container">
-            <div class="task-box">Перемещение героя. Новый уровень</div>
+            <div class="task-box">Новый уровень</div>
         </div>
     </main>
 
-    <div id="overlay" class="overlay" onclick="closeAll()"></div>
-    <!-- ... остальные модальные окна ... -->
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/industrial_script.js') }}"></script>
 </body>
 </html>
