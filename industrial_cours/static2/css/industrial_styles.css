@@ -1,0 +1,244 @@
+/* Основные стили для страницы курса промышленного программирования */
+
+/* Стили для шапки курса (используется в PyGame7.html) */
+.course-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-header h1 {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+    color: black;
+}
+
+/* Стиль для кнопки "Назад" */
+.back-link {
+    cursor: pointer;
+    color: #333;
+    font-size: 22px;
+    margin: 0;
+    margin-left: -100px;
+    padding-left: 20px;
+    margin-top: -30px;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #007bff;
+}
+
+/* Заголовок "Материалы" */
+.materials-title {
+    font-size: 18px;
+    margin: 20px 0 10px 40px;
+    color: #555;
+}
+
+/* Стили для кнопок материалов */
+.material-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 75%;
+    margin: 0 0 30px 40px;
+    margin-left: 10px;
+}
+
+.material-btn {
+    padding: 8px 15px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    padding-left: 15px;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: fit-content;
+}
+
+.material-btn:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+/* Основной контейнер для заданий */
+.tasks-main {
+    width: 75%;
+    margin-left: 40px;
+    padding-top: 10px;
+}
+
+/* Контейнер для списка заданий */
+.task-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+/* Стили для блока задания */
+.task-box {
+    width: 75%;
+    height: 25px;
+    background: white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 3px solid #A5A5A5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.task-box:hover {
+    background: #f5f5f5;
+    transform: translateX(5px);
+}
+
+/* Специфичные стили для industrial_course.html */
+.industrial-header {
+    margin-left: 40px;
+    font-size: 24px;
+    color: #333;
+}
+
+.industrial-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 75%;
+    margin-left: 40px;
+}
+
+.industrial-topic {
+    width: 75%;
+    height: 100px;
+    background: white;
+    border-radius: 0 15px 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1),
+                6px 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 5px solid #A5A5A5;
+}
+
+.industrial-topic:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.19);
+}
+
+.industrial-topic:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для контейнера тем */
+.topic-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 60%;
+    margin-left: 40px;
+    margin-top: 40px;
+}
+
+/* Стили для кнопки PyGame7 - переработанные */
+.topic-box {
+    width: auto;
+    height: 90px;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    border: 3px solid white;
+    outline: 2px solid black;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin: 25px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Эффект при наведении - увеличение и подъем */
+.topic-box:hover {
+    transform: scale(1.08) translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3),
+                0 16px 32px rgba(0, 0, 0, 0.15);
+    background: white;
+    border-color: white;
+}
+
+/* Эффект при нажатии - уменьшение и "вдавливание" */
+.topic-box:active {
+    transform: scale(0.95) translateY(2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+}
+
+/* Дополнительные эффекты */
+.topic-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.topic-box:hover::before {
+    opacity: 1;
+}
+
+/* Анимация текста */
+.topic-box .button-text {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.topic-box:hover .button-text {
+    transform: scale(1.05);
+}
+
+/* Заголовок страницы */
+.industrial-header {
+    font-size: 24px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+    color: #333;
+}

@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Основы промышленного программирования</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  <!-- Основные стили -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/industrial_styles.css') }}">  <!-- Стили курса -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('industrial.static', filename='css/industrial_styles.css') }}?v=2">
 </head>
 <body>
     <header>
         <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
-
         <div class="auth-container">
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">
                 <span id="answer-count">{{ solutions_count }}</span>
@@ -29,22 +28,65 @@
 
     <main>
         <h2 class="industrial-header">Темы курса</h2>
-        <div class="industrial-container">
-            {% for topic in topics %}
-                {% if topic[0] == "PyGame7" %}
-                    <div class="industrial-topic" data-url="{{ url_for('industrial.telegram_bot') }}">
-                        {{ topic[0] }}
-                    </div>
-                {% else %}
-                    <div class="industrial-topic">
-                        {{ topic[0] }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-
+        <div class="topic-container">
+            <div class="topic-box" onclick="window.location.href='{{ url_for('industrial.pygame7') }}'">
+                <span class="button-text">PyGame7</span>
+            </div>
         </div>
     </main>
 
-    <script src="{{ url_for('static', filename='js/industrial_script.js') }}"></script>
+    <!-- Модальные окна -->
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <div id="loginModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Вход в аккаунт</h2>
+        <hr>
+
+        <div class="date-container">
+            <input type="email" id="login-email" placeholder="Введите адрес электронной почты">
+        </div>
+
+        <div class="password-container">
+            <input type="password" id="login-password" placeholder="Введите пароль">
+        </div>
+
+        <a href="#" class="forgot-password">Забыли пароль?</a>
+
+        <div class="modal-footer">
+            <a href="#" class="register-link" onclick="openRegister()">Зарегистрироваться</a>
+            <button id="login-btn" class="modal-btn">Войти</button>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Регистрация</h2>
+        <hr>
+        <div class="date-container">
+            <input type="text" id="name" placeholder="Введите имя">
+        </div>
+        <div class="date-container">
+            <input type="text" id="surname" placeholder="Введите Фамилию">
+        </div>
+        <div class="date-container">
+            <input type="email" id="email" placeholder="Введите электронную почту" autocomplete="email">
+        </div>
+        <div class="date-container">
+            <input type="text" id="birthdate" placeholder="дд.мм.гг">
+        </div>
+        <div class="password-container">
+            <input type="password" id="password" placeholder="Введите пароль">
+        </div>
+        <div class="password-container">
+            <input type="password" id="repeatPassword" placeholder="Введите повторный пароль">
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="register-link" onclick="openLogin()">Вернуться к входу</a>
+            <button id="register-btn" class="modal-btn">Зарегистрироваться</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
