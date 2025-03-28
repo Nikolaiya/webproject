@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, jsonify
 import sqlite3
 
 industrial_bp = Blueprint('industrial', __name__,
-                        static_folder='static',
+                        static_folder='static2',
                         static_url_path='/industrial-static',
                         template_folder='templates')
 
@@ -44,6 +44,28 @@ def industrial_course():
                          user=session.get("user"),
                          solutions_count=session.get("solutions_count", 0),
                          topics_data=topics_data)
+
+
+@industrial_bp.route('/get-tasks/<int:topic_id>')
+def get_tasks(topic_id):
+    conn = get_db_connection()
+    tasks = conn.execute('''
+        SELECT * FROM tasks 
+        WHERE topic_id = ?
+        ORDER BY CASE task_type
+            WHEN 'class' THEN 1
+            WHEN 'home' THEN 2
+            WHEN 'extra' THEN 3
+        END
+    ''', (topic_id,)).fetchall()
+
+    topic = conn.execute('SELECT * FROM topics WHERE id = ?', (topic_id,)).fetchone()
+    conn.close()
+
+    return jsonify({
+        'topic': dict(topic),
+        'tasks': [dict(task) for task in tasks]
+    })
 
 
 # Добавляем маршруты для PyGame 1-5
