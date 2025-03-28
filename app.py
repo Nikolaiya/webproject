@@ -8,7 +8,7 @@ from industrial_cours.industrial_routes import industrial_bp  # Подключа
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
 
-# Подключаем Blueprint
+# Убедитесь, что Blueprint регистрируется правильно
 app.register_blueprint(industrial_bp, url_prefix="/industrial-course")
 
 def hash_password(password):  # Хэширует пароль
