@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Функция для загрузки материалов
 function loadMaterials() {
-    console.log("Загрузка материалов...");
 }
 
 // Функция для кликов по кнопкам материалов
@@ -25,28 +24,71 @@ document.querySelectorAll('.material-btn').forEach(btn => {
     });
 });
 
-// Функция для отображения заданий
+let activeTopicButton = null;
+let isSidebarVisible = false;
+
 function showTasks(topicId) {
     const sidebar = document.getElementById('tasksSidebar');
     const container = document.getElementById('tasksContainer');
 
-    // Показываем заглушку загрузки
-    container.innerHTML = '<div class="loading">Загрузка заданий...</div>';
-    sidebar.classList.add('visible');
+    // Находим активную кнопку
+    activeTopicButton = document.querySelector(`.topic-box[onmouseenter*="${topicId}"]`);
 
+    // Получаем позицию кнопки
+    const buttonRect = activeTopicButton.getBoundingClientRect();
+
+    // Добавляем класс активной кнопки
+    activeTopicButton.classList.add('active-topic');
+    isSidebarVisible = true;
+
+    // Показываем sidebar
+    sidebar.classList.add('visible');
+    container.innerHTML = '<div class="loading">Загрузка заданий...</div>';
+
+    // Загружаем задания
     fetch(`/industrial-course/get-tasks/${topicId}`)
         .then(response => response.json())
-        .then(data => renderTasks(data))
+        .then(data => {
+            renderTasks(data);
+
+            setTimeout(() => {
+                const updatedRect = activeTopicButton.getBoundingClientRect();
+                sidebar.style.top = `${updatedRect.top - 2}px`;
+            }, 100);
+        })
         .catch(error => {
             console.error("Ошибка:", error);
             container.innerHTML = '<div class="error">Ошибка загрузки</div>';
         });
 }
 
-// Функция для скрытия панели заданий
 function hideTasks() {
-    document.getElementById('tasksSidebar').classList.remove('visible');
+    if (!isSidebarVisible) return;
+
+    const sidebar = document.getElementById('tasksSidebar');
+    const isHoveringSidebar = sidebar.matches(':hover');
+    const isHoveringButton = activeTopicButton?.matches(':hover');
+
+    if (!isHoveringSidebar && !isHoveringButton) {
+        sidebar.classList.remove('visible');
+        activeTopicButton?.classList.remove('active-topic');
+        activeTopicButton = null;
+        isSidebarVisible = false;
+    }
 }
+
+// Обработчики событий
+document.addEventListener('mousemove', function(event) {
+    if (!isSidebarVisible) return;
+
+    const sidebar = document.getElementById('tasksSidebar');
+    const isHoveringSidebar = sidebar.contains(event.target);
+    const isHoveringButton = activeTopicButton?.contains(event.target);
+
+    if (!isHoveringSidebar && !isHoveringButton) {
+        hideTasks();
+    }
+});
 
 function renderTasks(data) {
     const container = document.getElementById('tasksContainer');

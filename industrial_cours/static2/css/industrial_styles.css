@@ -48,7 +48,7 @@ body {
 /* Стили для кнопок тем */
 /* Основные стили кнопки */
 .topic-box {
-    width: calc(100% - 35px);
+    width: calc(100% - 55px);
     height: 75px;
     background: white;
     border-radius: 15px;
@@ -93,14 +93,18 @@ body {
 
 /* Боковая панель */
 .tasks-sidebar {
-    position: absolute;
+    min-height: 700px;
+    height: auto;
+    box-sizing: border-box;
+    top: 0;
+    will-change: transform, opacity;
+    position: fixed;
     right: 0;
-    top: 28px;
     width: 30%;
-    height: 100%;
     background: white;
     border-radius: 0 15px 15px 0;
     padding: 20px;
+
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     transform: translateX(100%);
     opacity: 0;
@@ -113,35 +117,34 @@ body {
     outline: none;
 }
 
-/* Верхний контур (полная ширина + выступ влево) */
 .tasks-sidebar::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: 0px;
     left: -2px; /* Выступает на 5px влево */
     right: 0;
     height: 2px;
     background: black;
 }
 
-/* Левый контур с отступом */
 .tasks-sidebar::after {
     content: '';
     position: absolute;
     top: 82px; /* 75px от верха + 4px для выравнивания */
     left: -2px; /* Совпадает с выступом верхнего контура */
     bottom: 0;
-    width: 2px;
+    width: 1px;
     background: black;
 }
 
-/* Видимое состояние панели */
-.topic-box:hover + .tasks-sidebar,
-.tasks-sidebar:hover {
-    opacity: 1;
-    transform: translateX(0);
-    pointer-events: auto;
-    margin-left: -2px; /* Точное выравнивание */
+.tasks-sidebar .bottom-border {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -2px;
+    right: 0;
+    height: 2px;
+    background: black;
 }
 
 /* Контейнер */
@@ -154,7 +157,7 @@ body {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
-    outline-left: none; /* Убираем левую обводку у панели */
+    outline-left: none;
 }
 
 /* Новые стили для заголовка и элементов быстрого доступа */
@@ -271,4 +274,17 @@ body {
         transform: scale(1.02);
         border-radius: 15px;
     }
+}
+
+.topic-box.active-topic {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+    clip-path: inset(-5px 15px -5px -5px);
+    margin-right: -17px;
+    z-index: 10;
+}
+
+.topic-box.active-topic .button-text {
+    transform: scale(1.08);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
