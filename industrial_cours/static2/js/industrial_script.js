@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Функция для загрузки материалов
 function loadMaterials() {
+    console.log("Загрузка материалов...");
 }
 
 // Функция для кликов по кнопкам материалов
@@ -24,71 +25,28 @@ document.querySelectorAll('.material-btn').forEach(btn => {
     });
 });
 
-let activeTopicButton = null;
-let isSidebarVisible = false;
-
+// Функция для отображения заданий
 function showTasks(topicId) {
     const sidebar = document.getElementById('tasksSidebar');
     const container = document.getElementById('tasksContainer');
 
-    // Находим активную кнопку
-    activeTopicButton = document.querySelector(`.topic-box[onmouseenter*="${topicId}"]`);
-
-    // Получаем позицию кнопки
-    const buttonRect = activeTopicButton.getBoundingClientRect();
-
-    // Добавляем класс активной кнопки
-    activeTopicButton.classList.add('active-topic');
-    isSidebarVisible = true;
-
-    // Показываем sidebar
-    sidebar.classList.add('visible');
+    // Показываем заглушку загрузки
     container.innerHTML = '<div class="loading">Загрузка заданий...</div>';
+    sidebar.classList.add('visible');
 
-    // Загружаем задания
     fetch(`/industrial-course/get-tasks/${topicId}`)
         .then(response => response.json())
-        .then(data => {
-            renderTasks(data);
-
-            setTimeout(() => {
-                const updatedRect = activeTopicButton.getBoundingClientRect();
-                sidebar.style.top = `${updatedRect.top - 2}px`;
-            }, 100);
-        })
+        .then(data => renderTasks(data))
         .catch(error => {
             console.error("Ошибка:", error);
             container.innerHTML = '<div class="error">Ошибка загрузки</div>';
         });
 }
 
+// Функция для скрытия панели заданий
 function hideTasks() {
-    if (!isSidebarVisible) return;
-
-    const sidebar = document.getElementById('tasksSidebar');
-    const isHoveringSidebar = sidebar.matches(':hover');
-    const isHoveringButton = activeTopicButton?.matches(':hover');
-
-    if (!isHoveringSidebar && !isHoveringButton) {
-        sidebar.classList.remove('visible');
-        activeTopicButton?.classList.remove('active-topic');
-        activeTopicButton = null;
-        isSidebarVisible = false;
-    }
+    document.getElementById('tasksSidebar').classList.remove('visible');
 }
-
-// Обработчики событий
-document.addEventListener('mousemove', function(event) {
-    if (!isSidebarVisible) return;
-
-    const sidebar = document.getElementById('tasksSidebar');
-    const isHoveringSidebar = sidebar.contains(event.target);
-    const isHoveringButton = activeTopicButton?.contains(event.target);
-
-    if (!isHoveringSidebar && !isHoveringButton) {
-        hideTasks();
-    }
-});
 
 function renderTasks(data) {
     const container = document.getElementById('tasksContainer');
@@ -119,4 +77,26 @@ function renderTasks(data) {
 
         container.appendChild(section);
     });
+}
+
+function toggleArrow(event, element) {
+    event.stopPropagation();
+
+    const additionalText = element.previousElementSibling;
+    if (additionalText.classList.contains('additional-text')) {
+        additionalText.textContent = element.classList.contains('arrow-down')
+            ? "Развернуть"
+            : "Свернуть";
+    }
+
+    // Остальной код функции остается без изменений
+    const topicBox = element.closest('.topic-box');
+    const containerItem = topicBox.closest('.topic-container-item');
+    const expandableContent = containerItem.querySelector('.expandable-content');
+
+    element.classList.toggle('arrow-down');
+    topicBox.classList.toggle('expanded');
+    expandableContent.classList.toggle('expanded');
+
+    element.textContent = element.classList.contains('arrow-down') ? '▼' : '▲';
 }

@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Основы промышленного программирования</title>
+    <title>PyGame1</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('industrial.static', filename='css/industrial_styles.css') }}?v=2">
-    <script src="{{ url_for('industrial.static', filename='js/industrial_script.js') }}"></script>
 </head>
 <body>
     <header>
         <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+
         <div class="auth-container">
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">
                 <span id="answer-count">{{ solutions_count }}</span>
@@ -27,27 +26,6 @@
         </div>
     </header>
 
-    <main class="main-content">
-        <!-- Единый контейнер для тем и быстрого доступа -->
-        <div class="topic-container">
-            {% for topic in topics_data %}
-            <div class="topic-container-item">
-                <div class="topic-box"
-                     onmouseenter="showTasks({{ topic.topic.id }})"
-                     onmouseleave="hideTasks()"
-                     onclick="window.location.href='{{ url_for('industrial.pygame' + loop.index|string) }}'">
-                    <span class="button-text">{{ topic.topic.title }}</span>
-                    <span class="additional-text">Быстрый доступ</span> <!-- Новый элемент с текстом -->
-                    <button class="arrow-btn" onclick="toggleArrow(event, this)">▲</button>
-                </div>
-                <div class="expandable-content"></div>
-            </div>
-            {% endfor %}
-        </div>
-    </main>
-
-
-    <!-- Модальные окна -->
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
     <div id="loginModal" class="modal">
