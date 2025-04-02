@@ -49,23 +49,28 @@ def industrial_course():
 @industrial_bp.route('/get-tasks/<int:topic_id>')
 def get_tasks(topic_id):
     conn = get_db_connection()
-    tasks = conn.execute('''
-        SELECT * FROM tasks 
-        WHERE topic_id = ?
-        ORDER BY CASE task_type
-            WHEN 'class' THEN 1
-            WHEN 'home' THEN 2
-            WHEN 'extra' THEN 3
-        END
-    ''', (topic_id,)).fetchall()
+    try:
+        tasks = conn.execute('''
+            SELECT id, title, task_type, topic_id 
+            FROM tasks 
+            WHERE topic_id = ?
+            ORDER BY CASE task_type
+                WHEN 'class' THEN 1
+                WHEN 'home' THEN 2
+                WHEN 'extra' THEN 3
+            END
+        ''', (topic_id,)).fetchall()
 
-    topic = conn.execute('SELECT * FROM topics WHERE id = ?', (topic_id,)).fetchone()
-    conn.close()
+        if not tasks:
+            return jsonify({'error': 'Задания не найдены', 'tasks': []}), 404
 
-    return jsonify({
-        'topic': dict(topic),
-        'tasks': [dict(task) for task in tasks]
-    })
+        return jsonify({
+            'tasks': [dict(task) for task in tasks]
+        })
+    except Exception as e:
+        return jsonify({'error': str(e), 'tasks': []}), 500
+    finally:
+        conn.close()
 
 
 # Добавляем маршруты для PyGame 1-5

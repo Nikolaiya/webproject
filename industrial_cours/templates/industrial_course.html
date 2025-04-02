@@ -31,16 +31,20 @@
         <!-- Единый контейнер для тем и быстрого доступа -->
         <div class="topic-container">
             {% for topic in topics_data %}
-            <div class="topic-container-item">
+            <div class="topic-container-item" data-topic-id="{{ topic.topic.id }}">
                 <div class="topic-box"
                      onmouseenter="showTasks({{ topic.topic.id }})"
                      onmouseleave="hideTasks()"
                      onclick="window.location.href='{{ url_for('industrial.pygame' + loop.index|string) }}'">
                     <span class="button-text">{{ topic.topic.title }}</span>
-                    <span class="additional-text">Быстрый доступ</span> <!-- Новый элемент с текстом -->
+                    <span class="additional-text">Быстрый доступ</span>
                     <button class="arrow-btn" onclick="toggleArrow(event, this)">▲</button>
                 </div>
-                <div class="expandable-content"></div>
+                <div class="expandable-content">
+                    <div class="content-container"></div>
+                    <div class="error-message-container"></div>
+                    <div class="loading-message-container"></div>
+                </div>
             </div>
             {% endfor %}
         </div>
