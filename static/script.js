@@ -1,6 +1,8 @@
 // Функция для открытия окна входа
 function openLogin() {
     closeAll();
+    document.getElementById("overlay").style.zIndex = "1500";
+    document.getElementById("loginModal").style.zIndex = "2000";
     document.getElementById("overlay").classList.add("active");
     document.getElementById("loginModal").classList.add("active");
 }
@@ -12,8 +14,10 @@ function openRegister() {
     let registerModal = document.getElementById("registerModal");
 
     if (overlay && registerModal) {
-        overlay.classList.add("active");
-        registerModal.classList.add("active");
+    document.getElementById("overlay").style.zIndex = "1500";
+    document.getElementById("registerModal").style.zIndex = "2000";
+    document.getElementById("overlay").classList.add("active");
+    document.getElementById("registerModal").classList.add("active");
     } else {
         console.error("❌ Ошибка: Окно регистрации не найдено в DOM");
     }
@@ -175,6 +179,8 @@ document.getElementById("register-btn").addEventListener("click", function(event
 document.querySelector(".forgot-password").addEventListener("click", function (event) {
     event.preventDefault();
     closeAll();
+    document.getElementById("overlay").style.zIndex = "1500";
+    document.getElementById("forgotPasswordModal").style.zIndex = "2000";
     document.getElementById("overlay").classList.add("active");
     document.getElementById("forgotPasswordModal").classList.add("active");
 });

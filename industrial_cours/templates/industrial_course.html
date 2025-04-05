@@ -33,17 +33,14 @@
             {% for topic in topics_data %}
             <div class="topic-container-item" data-topic-id="{{ topic.topic.id }}">
                 <div class="topic-box"
-                     onmouseenter="showTasks({{ topic.topic.id }})"
-                     onmouseleave="hideTasks()"
-                     onclick="window.location.href='{{ url_for('industrial.pygame' + loop.index|string) }}'">
+                     data-topic-id="{{ topic.topic.id }}"
+                     onclick="handleTopicClick(event)">
                     <span class="button-text">{{ topic.topic.title }}</span>
                     <span class="additional-text">Быстрый доступ</span>
-                    <button class="arrow-btn" onclick="toggleArrow(event, this)">▲</button>
+                    <button class="arrow-btn" onclick="toggleArrow(event, this)">▼</button>
                 </div>
                 <div class="expandable-content">
                     <div class="content-container"></div>
-                    <div class="error-message-container"></div>
-                    <div class="loading-message-container"></div>
                 </div>
             </div>
             {% endfor %}
@@ -103,6 +100,57 @@
         </div>
     </div>
 
+        <!-- Модальное окно для восстановления пароля -->
+    <div id="forgotPasswordModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Восстановление пароля</h2>
+        <hr>
+
+        <div class="date-container">
+            <input type="text" id="forgot-name" placeholder="Введите имя">
+        </div>
+        <div class="date-container">
+            <input type="text" id="forgot-surname" placeholder="Введите фамилию">
+        </div>
+        <div class="date-container">
+            <input type="email" id="forgot-email" placeholder="Введите электронную почту">
+        </div>
+        <div class="date-container">
+            <input type="text" id="forgot-birthdate" placeholder="Введите дату рождения (дд.мм.гггг)">
+        </div>
+
+        <div class="modal-footer">
+            <button id="forgot-submit-btn" class="modal-btn">Продолжить</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно для ввода нового пароля -->
+    <div id="newPasswordModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Введите новый пароль</h2>
+        <hr>
+
+        <div class="password-container">
+            <input type="password" id="new-password" placeholder="Введите новый пароль">
+        </div>
+        <div class="password-container">
+            <input type="password" id="confirm-new-password" placeholder="Подтвердите новый пароль">
+        </div>
+
+        <div class="modal-footer">
+            <button id="new-password-submit-btn" class="modal-btn">Сохранить</button>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <div id="authErrorModal" class="error-modal">
+        <div class="error-modal-content">
+            <div class="error-icon">❗</div>
+            <div class="error-message">Ошибка: для начала войдите в аккаунт!</div>
+            <button class="close-error-btn" onclick="closeErrorModal()">Закрыть</button>
+        </div>
+    </div>
+
 </body>
 </html>

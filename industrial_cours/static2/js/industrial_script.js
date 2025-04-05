@@ -13,6 +13,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function showErrorModal() {
+    const modal = document.getElementById('authErrorModal');
+    // Удаляем класс, если был (на случай повторного открытия)
+    modal.classList.remove('active');
+
+    // Триггерим reflow для сброса анимации
+    void modal.offsetWidth;
+
+    // Добавляем класс с анимацией
+    modal.classList.add('active');
+    modal.addEventListener('click', closeOnOutsideClick);
+}
+
+function closeErrorModal() {
+    const modal = document.getElementById('authErrorModal');
+    modal.classList.remove('active');
+    modal.removeEventListener('click', closeOnOutsideClick);
+}
+
+function closeOnOutsideClick(event) {
+    const modalContent = document.querySelector('.error-modal-content');
+    if (!modalContent.contains(event.target)) {
+        closeErrorModal();
+    }
+}
+
 // Функция для загрузки материалов
 function loadMaterials() {
     console.log("Загрузка материалов...");
@@ -25,8 +51,36 @@ document.querySelectorAll('.material-btn').forEach(btn => {
     });
 });
 
+function handleTopicClick(event) {
+    // Проверяем, был ли клик по самой кнопке или ее дочерним элементам
+    const topicBox = event.target.closest('.topic-box');
+    if (!topicBox) return;
+
+    // Проверяем авторизацию
+    if (!document.querySelector('.user-btn')) {
+        event.preventDefault();
+        showErrorModal();
+        return;
+    }
+
+    // Если пользователь авторизован - переходим на страницу темы
+    const topicId = topicBox.dataset.topicId;
+    window.location.href = `/industrial-course/pygame${topicId}`;
+}
+
 // Основная функция для загрузки и отображения заданий
 function loadTasksForTopic(topicId, container) {
+    // Проверяем авторизацию
+    if (!document.querySelector('.user-btn')) {
+        container.innerHTML = `
+            <div class="not-authorized-message">
+                Ошибка: для начала войдите в аккаунт!
+            </div>
+        `;
+        return;
+    }
+
+    // Остальной код загрузки заданий...
     container.innerHTML = '<div class="loading-content">Загрузка заданий...</div>';
 
     fetch(`/industrial-course/get-tasks/${topicId}`)
@@ -38,13 +92,7 @@ function loadTasksForTopic(topicId, container) {
             if (!data || !Array.isArray(data.tasks)) {
                 throw new Error('Неверный формат данных');
             }
-
-            // Добавляем topic_id к данным, если его нет
-            const enhancedData = {
-                ...data,
-                topic: { id: topicId } // Добавляем информацию о теме
-            };
-            renderTasksContent(enhancedData, container);
+            renderTasksContent(data, container);
         })
         .catch(error => {
             console.error("Ошибка:", error);
@@ -114,7 +162,7 @@ function toggleArrow(event, element) {
     expandableContent.classList.toggle('expanded');
 
     // Обновляем текст стрелки
-    element.textContent = element.classList.contains('arrow-down') ? '▼' : '▲';
+    element.textContent = element.classList.contains('arrow-down') ? '▲' : '▼';
 
     // Если контент раскрывается, загружаем задания
     if (element.classList.contains('arrow-down')) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyGame1</title>
+    <title>PyGame2</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -74,6 +74,48 @@
         <div class="modal-footer">
             <a href="#" class="register-link" onclick="openLogin()">Вернуться к входу</a>
             <button id="register-btn" class="modal-btn">Зарегистрироваться</button>
+        </div>
+    </div>
+
+        <!-- Модальное окно для восстановления пароля -->
+    <div id="forgotPasswordModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Восстановление пароля</h2>
+        <hr>
+
+        <div class="date-container">
+            <input type="text" id="forgot-name" placeholder="Введите имя">
+        </div>
+        <div class="date-container">
+            <input type="text" id="forgot-surname" placeholder="Введите фамилию">
+        </div>
+        <div class="date-container">
+            <input type="email" id="forgot-email" placeholder="Введите электронную почту">
+        </div>
+        <div class="date-container">
+            <input type="text" id="forgot-birthdate" placeholder="Введите дату рождения (дд.мм.гггг)">
+        </div>
+
+        <div class="modal-footer">
+            <button id="forgot-submit-btn" class="modal-btn">Продолжить</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно для ввода нового пароля -->
+    <div id="newPasswordModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Введите новый пароль</h2>
+        <hr>
+
+        <div class="password-container">
+            <input type="password" id="new-password" placeholder="Введите новый пароль">
+        </div>
+        <div class="password-container">
+            <input type="password" id="confirm-new-password" placeholder="Подтвердите новый пароль">
+        </div>
+
+        <div class="modal-footer">
+            <button id="new-password-submit-btn" class="modal-btn">Сохранить</button>
         </div>
     </div>
 
