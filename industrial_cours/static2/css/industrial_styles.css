@@ -22,6 +22,7 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     height: 60px; /* Фиксированная высота */
+    flex-wrap: wrap;
 }
 
 .course-header h1 {
@@ -30,6 +31,157 @@ body {
     margin: 0;
     color: black;
 }
+
+/* Группа заголовка и поиска */
+.header-left-group {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+/* Группа справа (фильтр + кнопки) */
+.header-right-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 1;
+    gap: 15px;
+    margin-right: 30px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    height: 20px;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: 200px;
+    transition: all 0.3s;
+}
+
+.search-btn {
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 0 20px 20px 0;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-btn:hover {
+    transform: scale(1.05);
+}
+
+.search-btn:active {
+    transform: scale(0.95, 0.9);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-btn img {
+    transition: transform 0.3s;
+    width: 20px;
+    height: 20px;
+}
+
+.filter-btn:hover img {
+    transform: rotate(30deg);
+}
+
+/* Меню фильтра */
+.filter-menu {
+    position: absolute;
+    top: 70px;
+    right: 90px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    padding: 15px;
+    width: 250px;
+    z-index: 1000;
+    display: none;
+}
+
+.filter-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-options {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    cursor: pointer;
+}
+
+.filter-option:hover {
+    background: #f5f5f5;
+}
+
+.filter-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #aaa;
+    border-radius: 3px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-checkbox.checked {
+    background: linear-gradient(to right, #A5A5A5, #e0e0e0);
+    color: white;
+}
+
+.apply-filter-btn {
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(to right, #A5A5A5, #e0e0e0);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.apply-filter-btn:hover {
+    transform: scale(1.05);
+}
+.apply-filter-btn:active {
+    transform: scale(0.95, 0.9);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Основной контейнер страницы */
 .main-content {
@@ -219,28 +371,85 @@ body {
 
 /* Раскрывающееся содержимое */
 .expandable-content {
+    top: -10px;
     width: calc(100% - 20px);
-    height: 0;
-    background-color: #F5F5F5;
+    max-height: 0;
+    background-color: white;
     border-radius: 0 0 15px 15px;
-    margin-top: -25px;
+    margin-top: -15px;
     padding: 0 20px;
     box-sizing: border-box;
     overflow: hidden;
-    transition: height 0.3s ease, padding 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-left: 2px solid black;
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
-    border-top: none;
+    transition: max-height 0.5s ease, padding 0.5s ease;
+    box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
     position: relative;
 }
 
 /* Класс для раскрытого состояния */
 .expandable-content.expanded {
-    height: 500px;
+    max-height: 1000px; /* Достаточно большое значение для вмещения контента */
     padding: 20px;
-    border-top: 2px solid black;
+    border-top: none;
+}
+
+.materials-section {
+    margin-top: 20px; /* Добавляем только верхний отступ */
+    margin-bottom: 25px;
+}
+
+/* Стили для секций заданий (как в pygame) */
+.quick-access-section {
+    margin-bottom: 25px;
+}
+
+.materials-title {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    color: #444;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.materials-content {
+    color: #888;
+    font-style: italic;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.quick-access-title {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    color: #444;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.quick-access-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quick-access-item {
+    padding: 12px 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+.quick-access-item:hover {
+    background: #f0f0f0;
+    transform: translateX(5px);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quick-access-item:active {
+    transform: translateX(5px) scale(0.98);
 }
 
 /* Изменяем стиль кнопки темы, когда контент раскрыт */
@@ -304,6 +513,8 @@ body {
 .no-tasks {
     color: #888;
     font-style: italic;
+    padding: 10px;
+    font-size: 14px;
 }
 
 .unavailable {
@@ -508,6 +719,7 @@ body {
     color: #888;
     font-style: italic;
     padding: 10px;
+    font-size: 14px;
 }
 
 .back-btn {

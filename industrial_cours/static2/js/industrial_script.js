@@ -83,7 +83,7 @@ function loadTasksForTopic(topicId, container) {
     // Остальной код загрузки заданий...
     container.innerHTML = '<div class="loading-content">Загрузка заданий...</div>';
 
-    fetch(`/industrial-course/get-tasks/${topicId}`)
+        fetch(`/industrial-course/get-tasks/${topicId}`)
         .then(response => {
             if (!response.ok) throw new Error('Сервер вернул ошибку');
             return response.json();
@@ -92,6 +92,8 @@ function loadTasksForTopic(topicId, container) {
             if (!data || !Array.isArray(data.tasks)) {
                 throw new Error('Неверный формат данных');
             }
+            // Обновляем данные для поиска
+            updateTopicTasks(topicId, data.tasks);
             renderTasksContent(data, container);
         })
         .catch(error => {
@@ -119,9 +121,9 @@ function renderTasksContent(data, container) {
     };
 
     let html = `
-        <div class="content-section">
-            <div class="section-title">Материалы</div>
-            <div class="section-content unavailable">Пока не доступно</div>
+        <div class="materials-section">
+            <h3 class="materials-title">Материалы</h3>
+            <div class="materials-content">Материалы пока не доступны</div>
         </div>
     `;
 
@@ -130,16 +132,19 @@ function renderTasksContent(data, container) {
         const tasks = data.tasks.filter(task => task.task_type === type);
 
         html += `
-            <div class="content-section">
-                <div class="section-title">${title}</div>
-                ${tasks.length ?
-                    tasks.map(task => `
-                        <div class="task-item" onclick="window.location.href='/industrial-course/pygame${task.topic_id}/task/${task.id}'">
-                            ${task.title || 'Без названия'}
-                        </div>
-                    `).join('') :
-                    '<div class="no-tasks">Задания отсутствуют</div>'
-                }
+            <div class="quick-access-section">
+                <h3 class="quick-access-title">${title}</h3>
+                <div class="quick-access-list">
+                    ${tasks.length ?
+                        tasks.map(task => `
+                            <div class="quick-access-item"
+                                 onclick="window.location.href='/industrial-course/pygame${task.topic_id}/task/${task.id}'">
+                                ${task.title || 'Без названия'}
+                            </div>
+                        `).join('') :
+                        '<div class="no-tasks">Задания отсутствуют</div>'
+                    }
+                </div>
             </div>
         `;
     });
@@ -157,6 +162,7 @@ function toggleArrow(event, element) {
     const topicId = containerItem.dataset.topicId;
 
     // Переключаем состояние
+    const isExpanding = !expandableContent.classList.contains('expanded');
     element.classList.toggle('arrow-down');
     topicBox.classList.toggle('expanded');
     expandableContent.classList.toggle('expanded');
@@ -164,8 +170,8 @@ function toggleArrow(event, element) {
     // Обновляем текст стрелки
     element.textContent = element.classList.contains('arrow-down') ? '▲' : '▼';
 
-    // Если контент раскрывается, загружаем задания
-    if (element.classList.contains('arrow-down')) {
+    if (isExpanding) {
+        // Если контент раскрывается, загружаем задания
         loadTasksForTopic(topicId, expandableContent);
     }
 }
@@ -267,3 +273,255 @@ function renderTasks(tasks) {
 function goBackToTopics() {
     window.location.href = '/industrial-course/';
 }
+
+// Функция для показа/скрытия меню фильтра
+function toggleFilterMenu() {
+    const menu = document.getElementById('filterMenu');
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'block';
+        // Заполняем меню темами при первом открытии
+        if (!menu.dataset.populated) {
+            populateFilterMenu();
+            menu.dataset.populated = 'true';
+        }
+    }
+}
+
+// Заполнение меню темами
+function populateFilterMenu() {
+    const optionsContainer = document.querySelector('.filter-options');
+    const topics = document.querySelectorAll('.topic-container-item');
+
+    // Очищаем контейнер перед заполнением
+    optionsContainer.innerHTML = '';
+
+    topics.forEach(topic => {
+        const topicId = topic.dataset.topicId;
+        const topicTitle = topic.querySelector('.button-text').textContent;
+
+        const option = document.createElement('div');
+        option.className = 'filter-option';
+        option.dataset.topicId = topicId;
+
+        option.innerHTML = `
+            <div class="filter-checkbox"></div>
+            <span class="filter-option-text">${topicTitle}</span>
+        `;
+
+        // Обработчик для всего элемента option
+        option.addEventListener('click', function(e) {
+            // Переключаем состояние checkbox
+            const checkbox = this.querySelector('.filter-checkbox');
+            checkbox.classList.toggle('checked');
+
+            // Можно также добавить здесь вызов applyFilter(),
+            // если нужно применять фильтр сразу при выборе
+        });
+
+        optionsContainer.appendChild(option);
+    });
+}
+
+// Применение фильтра
+function applyFilter() {
+    const checkedOptions = document.querySelectorAll('.filter-checkbox.checked');
+    const topics = document.querySelectorAll('.topic-container-item');
+
+    if (checkedOptions.length === 0) {
+        // Если ничего не выбрано, показываем все темы
+        topics.forEach(topic => {
+            topic.style.display = 'block';
+        });
+    } else {
+        // Скрываем все темы
+        topics.forEach(topic => {
+            topic.style.display = 'none';
+        });
+
+        // Показываем только выбранные
+        checkedOptions.forEach(option => {
+            const topicId = option.closest('.filter-option').dataset.topicId;
+            document.querySelector(`.topic-container-item[data-topic-id="${topicId}"]`).style.display = 'block';
+        });
+    }
+
+    // Закрываем меню фильтра
+    document.getElementById('filterMenu').style.display = 'none';
+}
+
+// Глобальные переменные для хранения данных
+let allTopicsData = [];
+let allTasksData = {};
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadAllTopicsAndTasks();
+
+    // Обработчики для поиска
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    searchBtn.addEventListener('click', () => performSearch(searchInput.value));
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch(searchInput.value);
+    });
+});
+
+// Функция для загрузки всех данных при старте
+function loadAllTopicsData() {
+    const topicContainers = document.querySelectorAll('.topic-container-item');
+
+    topicContainers.forEach(container => {
+        const topicId = container.dataset.topicId;
+        const topicTitle = container.querySelector('.button-text').textContent;
+
+        allTopicsData.push({
+            id: topicId,
+            title: topicTitle,
+            tasks: [] // Задания будем заполнять при открытии темы
+        });
+    });
+}
+
+// Функция для обновления данных заданий при открытии темы
+function updateTopicTasks(topicId, tasks) {
+    const topic = allTopicsData.find(t => t.id === topicId);
+    if (topic) {
+        topic.tasks = tasks.map(task => ({
+            id: task.id,
+            title: task.title,
+            type: task.task_type
+        }));
+    }
+}
+
+async function loadAllTopicsAndTasks() {
+    const topicContainers = document.querySelectorAll('.topic-container-item');
+
+    for (const container of topicContainers) {
+        const topicId = container.dataset.topicId;
+        const topicTitle = container.querySelector('.button-text').textContent;
+
+        // Добавляем тему
+        allTopicsData.push({
+            id: topicId,
+            title: topicTitle,
+            tasks: []
+        });
+
+        // Загружаем задачи для темы
+        try {
+            const response = await fetch(`/industrial-course/get-tasks/${topicId}`);
+            if (!response.ok) throw new Error('Ошибка сервера');
+
+            const data = await response.json();
+            if (data.tasks && Array.isArray(data.tasks)) {
+                allTasksData[topicId] = data.tasks;
+
+                // Обновляем данные для поиска
+                const topic = allTopicsData.find(t => t.id === topicId);
+                if (topic) {
+                    topic.tasks = data.tasks.map(task => ({
+                        id: task.id,
+                        title: task.title,
+                        type: task.task_type
+                    }));
+                }
+            }
+        } catch (error) {
+            console.error(`Ошибка загрузки задач для темы ${topicId}:`, error);
+        }
+    }
+}
+
+// Функция поиска
+function performSearch(searchTerm) {
+    const searchText = searchTerm.trim();
+
+    if (!searchText) {
+        document.querySelectorAll('.topic-container-item').forEach(topic => {
+            topic.style.display = 'block';
+        });
+        return;
+    }
+
+    let foundAny = false;
+    const exactMatch = searchText.match(/^PyGame(\d+)$/i);
+    const partialMatch = searchText.toLowerCase().includes('pygame');
+    const searchWords = searchText.toLowerCase().split(/\s+/);
+    const searchRegex = new RegExp(searchText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'i');
+
+    document.querySelectorAll('.topic-container-item').forEach(topic => {
+        const topicId = topic.dataset.topicId;
+        const topicData = allTopicsData.find(t => t.id === topicId);
+        let shouldShow = false;
+
+        if (!topicData) return;
+
+        // 1. Точное совпадение типа "PyGame1"
+        if (exactMatch) {
+            const searchNum = exactMatch[1];
+            shouldShow = topicData.title.replace(/\D/g, '') === searchNum;
+        }
+
+        // 2. Частичное совпадение "pygame"
+        else if (partialMatch) {
+            shouldShow = topicData.title.toLowerCase().includes('pygame');
+        }
+
+        // 3. Поиск по ключевым словам в названии темы
+        else {
+            const titleWords = topicData.title.toLowerCase().split(/\s+/);
+            shouldShow = searchWords.every(word =>
+                titleWords.some(titleWord => titleWord.includes(word))
+            );
+        }
+
+        // 4. Если не нашли в теме — ищем в задачах этой темы
+        if (!shouldShow && allTasksData[topicId]) {
+            const hasMatchingTask = allTasksData[topicId].some(task =>
+                searchRegex.test(task.title)
+            );
+            if (hasMatchingTask) shouldShow = true;
+        }
+
+        // Показываем/прячем
+        topic.style.display = shouldShow ? 'block' : 'none';
+
+        if (shouldShow) {
+            foundAny = true;
+            if (searchText.length > 2) {
+                const topicBox = topic.querySelector('.topic-box');
+                topicBox.classList.add('highlight');
+                setTimeout(() => topicBox.classList.remove('highlight'), 2000);
+            }
+        }
+    });
+
+    if (!foundAny) {
+        console.log("Ничего не найдено по запросу:", searchText);
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadAllTopicsData();
+
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    if (searchBtn && searchInput) {
+        // Поиск при клике на кнопку
+        searchBtn.addEventListener('click', function() {
+            performSearch(searchInput.value);
+        });
+
+        // Поиск при нажатии Enter в поле ввода
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(searchInput.value);
+            }
+        });
+    }
+});

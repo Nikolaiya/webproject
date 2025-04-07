@@ -10,12 +10,33 @@
 </head>
 <body>
     <header>
-        <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
-        <div class="auth-container">
+        <!-- Группа заголовка и поиска -->
+        <div class="header-left-group">
+            <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+
+            <!-- Поисковая строка -->
+            <div class="search-container">
+                <input type="text" placeholder="Поиск по темам и заданиям..." class="search-input" id="searchInput">
+                <button class="search-btn" id="searchBtn">
+                    <img src="{{ url_for('static', filename='data/search-icon.png') }}" alt="Поиск" width="30" height="25">
+                </button>
+            </div>
+        </div>
+
+        <!-- Группа фильтра и кнопок -->
+        <div class="header-right-group">
+            <!-- Кнопка фильтра -->
+            <button class="filter-btn" onclick="toggleFilterMenu()">
+                <img src="{{ url_for('static', filename='data/settings-icon.png') }}" alt="Фильтр" width="30" height="30">
+            </button>
+
+            <!-- Кнопка new-btn -->
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">
                 <span id="answer-count">{{ solutions_count }}</span>
                 <img src="{{ url_for('static', filename='data/img.png') }}" alt="Icon" class="btn-icon" width="25" height="25">
             </button>
+
+            <!-- Кнопка входа/регистрации -->
             {% if user %}
                 <button class="user-btn" onclick="toggleMenu()">{{ user }}</button>
                 <div class="user-menu" id="userMenu">
@@ -24,6 +45,15 @@
             {% else %}
                 <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
             {% endif %}
+        </div>
+
+        <!-- Меню фильтра -->
+        <div class="filter-menu" id="filterMenu">
+            <div class="filter-header">Фильтр тем</div>
+            <div class="filter-options">
+                <!-- Здесь будут динамически добавляться темы -->
+            </div>
+            <button class="apply-filter-btn" onclick="applyFilter()">Применить</button>
         </div>
     </header>
 
