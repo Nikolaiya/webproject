@@ -169,3 +169,4 @@ function toggleArrow(event, element) {
         loadTasksForTopic(topicId, expandableContent);
     }
 }
+

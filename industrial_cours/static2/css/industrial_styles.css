@@ -438,3 +438,74 @@ body {
     padding: 20px;
     width: 100%;
 }
+
+/* Стили для страниц PyGame */
+.pygame-main-content {
+    display: flex;
+    margin-top: 100px;
+    padding: 20px;
+    gap: 20px;
+}
+
+.pygame-tasks-container {
+    flex: 4; /* 80% ширины */
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pygame-materials-container {
+    flex: 1; /* 20% ширины */
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pygame-section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.pygame-task-type {
+    font-size: 18px;
+    margin: 15px 0 10px;
+    color: #444;
+}
+
+.pygame-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pygame-task-item {
+    padding: 12px 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #ddd;
+}
+
+.pygame-task-item:hover {
+    background: #f0f0f0;
+    transform: translateX(5px);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pygame-materials-content {
+    padding: 15px;
+    color: #888;
+    font-style: italic;
+}
+
+.no-tasks {
+    color: #888;
+    font-style: italic;
+    padding: 10px;
+}

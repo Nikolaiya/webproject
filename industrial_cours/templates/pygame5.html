@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyGame5</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('industrial.static', filename='css/industrial_styles.css') }}?v=2">
 </head>
 <body>
     <header>
         <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
-
         <div class="auth-container">
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">
                 <span id="answer-count">{{ solutions_count }}</span>
@@ -25,6 +25,45 @@
             {% endif %}
         </div>
     </header>
+
+    <main class="pygame-main-content">
+        <!-- Контейнер для заданий (80% ширины) -->
+        <div class="pygame-tasks-container">
+            <h2 class="pygame-section-title">Задания</h2>
+
+            <!-- Секция классных работ -->
+            <div class="pygame-tasks-section">
+                <h3 class="pygame-task-type">Классная работа</h3>
+                <div class="pygame-tasks-list" id="class-tasks">
+                    <!-- Задания будут загружены через JS -->
+                </div>
+            </div>
+
+            <!-- Секция домашних работ -->
+            <div class="pygame-tasks-section">
+                <h3 class="pygame-task-type">Домашняя работа</h3>
+                <div class="pygame-tasks-list" id="home-tasks">
+                    <!-- Задания будут загружены через JS -->
+                </div>
+            </div>
+
+            <!-- Секция дополнительных заданий -->
+            <div class="pygame-tasks-section">
+                <h3 class="pygame-task-type">Дополнительные задачи</h3>
+                <div class="pygame-tasks-list" id="extra-tasks">
+                    <!-- Задания будут загружены через JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Контейнер для материалов (20% ширины) -->
+        <div class="pygame-materials-container">
+            <h2 class="pygame-section-title">Материалы</h2>
+            <div class="pygame-materials-content">
+                <p>Материалы пока не доступны</p>
+            </div>
+        </div>
+    </main>
 
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
@@ -120,5 +159,6 @@
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('industrial.static', filename='js/pygame_script.js') }}"></script>
 </body>
 </html>
