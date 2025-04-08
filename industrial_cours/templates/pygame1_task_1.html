@@ -51,7 +51,14 @@
             </div>
             <div class="custom-task-code">
                 <h3>Предложить своё решение:</h3>
-                <pre><code>улюлю</code></pre>
+                <form id="solution-form">
+                    <textarea id="solution-text" class="solution-textarea" placeholder="Введите ваше решение здесь..."></textarea>
+                    <button type="submit" class="submit-solution-btn">Отправить решение</button>
+                </form>
+                <div class="solutions-container">
+                    <h4>Предложенные решения:</h4>
+                    <div id="solutions-list"></div>
+                </div>
             </div>
         </div>
     </main>

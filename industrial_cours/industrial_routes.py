@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, session, jsonify
+import datetime
+
+from flask import Blueprint, render_template, session, jsonify, request
 import sqlite3
 
 industrial_bp = Blueprint('industrial', __name__,
@@ -69,6 +71,52 @@ def get_tasks(topic_id):
         })
     except Exception as e:
         return jsonify({'error': str(e), 'tasks': []}), 500
+    finally:
+        conn.close()
+
+
+@industrial_bp.route('/submit-solution/<int:task_id>', methods=['POST'])
+def submit_solution(task_id):
+    if 'user_id' not in session:  # Проверяем user_id вместо user
+        return jsonify({'error': 'Требуется авторизация'}), 401
+
+    solution_text = request.form.get('solution_text')
+    if not solution_text:
+        return jsonify({'error': 'Решение не может быть пустым'}), 400
+
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO user_solutions (task_id, user_id, solution_text, created_at) VALUES (?, ?, ?, ?)",
+            (task_id, session['user_id'], solution_text, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        )
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        conn.close()
+
+
+@industrial_bp.route('/get-solutions/<int:task_id>')
+def get_solutions(task_id):
+    conn = get_db_connection()
+    try:
+        solutions = conn.execute('''
+            SELECT us.id, us.solution_text, us.created_at, 
+                   COALESCE(u.username, 'Аноним') as username 
+            FROM user_solutions us
+            LEFT JOIN users u ON us.user_id = u.id
+            WHERE us.task_id = ?
+            ORDER BY us.created_at DESC
+        ''', (task_id,)).fetchall()
+
+        return jsonify({
+            'solutions': [dict(sol) for sol in solutions]
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     finally:
         conn.close()
 

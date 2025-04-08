@@ -525,3 +525,70 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 });
+
+// Загрузка решений при открытии страницы задания
+function loadSolutions(taskId) {
+    fetch(`/industrial-course/get-solutions/${taskId}`)
+        .then(response => response.json())
+        .then(data => {
+            const solutionsList = document.getElementById('solutions-list');
+            if (data.solutions && data.solutions.length > 0) {
+                solutionsList.innerHTML = data.solutions.map(solution => `
+                    <div class="solution-item">
+                        <div class="solution-header">
+                            <span>${solution.username}</span>
+                            <span>${new Date(solution.created_at).toLocaleString()}</span>
+                        </div>
+                        <div class="solution-content">${solution.solution_text}</div>
+                    </div>
+                `).join('');
+            } else {
+                solutionsList.innerHTML = '<p>Пока нет предложенных решений</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка загрузки решений:', error);
+        });
+}
+
+// Отправка нового решения
+document.addEventListener('DOMContentLoaded', function() {
+    const solutionForm = document.getElementById('solution-form');
+    if (solutionForm) {
+        const taskId = window.location.pathname.match(/task\/(\d+)/)[1];
+
+        // Загружаем существующие решения
+        loadSolutions(taskId);
+
+        solutionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!document.querySelector('.user-btn')) {
+                showErrorModal();
+                return;
+            }
+
+            const solutionText = document.getElementById('solution-text').value;
+
+            fetch(`/industrial-course/submit-solution/${taskId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `solution_text=${encodeURIComponent(solutionText)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Ошибка: ' + data.error);
+                } else {
+                    document.getElementById('solution-text').value = '';
+                    loadSolutions(taskId); // Обновляем список решений
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+    }
+});

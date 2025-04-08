@@ -7,6 +7,26 @@ def fill_database():
     conn = sqlite3.connect('materials.db')
     cursor = conn.cursor()
 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    )
+    ''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS user_solutions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        task_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        solution_text TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (task_id) REFERENCES tasks(id)
+    )
+    ''')
+
     # Темы и их задания
     topics_data = [
         {
