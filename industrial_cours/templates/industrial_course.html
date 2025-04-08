@@ -12,7 +12,10 @@
     <header>
         <!-- Группа заголовка и поиска -->
         <div class="header-left-group">
-            <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+            <div class="header-title">
+                <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+                <span id="current-time" class="time-display"></span>
+            </div>
 
             <!-- Поисковая строка -->
             <div class="search-container">

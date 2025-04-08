@@ -80,6 +80,12 @@ def pygame1():
                          user=session.get("user"),
                          solutions_count=session.get("solutions_count", 0))
 
+@industrial_bp.route('/pygame1/task/1')
+def pygame1_cross_task():
+    return render_template('pygame1_task_1.html',
+                         user=session.get("user"),
+                         solutions_count=session.get("solutions_count", 0))
+
 @industrial_bp.route('/pygame2')
 def pygame2():
     return render_template('pygame2.html',

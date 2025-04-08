@@ -47,6 +47,30 @@ header {
     transform: scale(0.95);
 }
 
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative; /* Для позиционирования времени */
+}
+
+.time-display {
+    font-size: 18px;
+    font-weight: normal;
+    color: black;
+    background: white; /* Белый фон */
+    padding: 5px 10px;
+    position: relative;
+    top: 2px;
+    transition: all 0.3s ease; /* Плавная анимация */
+}
+
+/* Эффект при наведении */
+.time-display:hover {
+    transform: scale(1.05); /* Увеличение на 10% */
+    cursor: default; /* Курсор по умолчанию */
+}
+
 /* Стили для контейнера авторизации */
 .auth-container {
     display: flex;
@@ -473,4 +497,27 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 .login-modal.active {
     top: 20%;
     opacity: 1;
+}
+
+/* Стиль для python курса */
+.course-unavailable {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f4f4f4;
+}
+
+.course-unavailable::before {
+    content: "⚠️";
+    content-color: black;
+    display: block;
+    font-size: 48px;
+    margin-bottom: 15px;
 }

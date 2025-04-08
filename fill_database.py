@@ -1,4 +1,4 @@
-'''import sqlite3
+import sqlite3
 from datetime import datetime
 
 
@@ -77,4 +77,3 @@ def fill_database():
 
 if __name__ == '__main__':
     fill_database()
-'''

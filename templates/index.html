@@ -8,7 +8,11 @@
 </head>
 <body>
     <header>
-        <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+        <!-- Обновленный заголовок с часами -->
+        <div class="header-title">
+            <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+            <span id="current-time" class="time-display"></span>
+        </div>
 
         <div class="auth-container">
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">

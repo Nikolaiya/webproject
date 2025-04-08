@@ -268,3 +268,65 @@ document.querySelectorAll('.task-box').forEach(task => {
         }, 200);
     });
 });
+
+function updateTime() {
+    fetch('http://worldtimeapi.org/api/timezone/Europe/Moscow')
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            const datetime = new Date(data.datetime);
+            const timeString = datetime.toLocaleTimeString('ru-RU', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = timeString;
+                timeElement.title = "Точное московское время"; // Подсказка при наведении
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка при получении времени:', error);
+            // Fallback: локальное время пользователя
+            const now = new Date();
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = now.toLocaleTimeString('ru-RU');
+                timeElement.title = "Локальное время (Московское время недоступно)";
+            }
+        });
+}
+
+// Инициализация часов
+document.addEventListener('DOMContentLoaded', function() {
+    // Проверяем и создаем элемент времени
+    let timeElement = document.getElementById('current-time');
+    if (!timeElement) {
+        const headerTitle = document.querySelector('.header-title');
+        if (headerTitle) {
+            timeElement = document.createElement('span');
+            timeElement.id = 'current-time';
+            timeElement.className = 'time-display';
+            headerTitle.appendChild(timeElement);
+        }
+    }
+
+    // Добавляем обработчик hover через JS (альтернатива CSS)
+    if (timeElement) {
+        timeElement.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+        });
+        timeElement.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    }
+
+    // Запускаем часы
+    updateTime();
+    setInterval(updateTime, 1000);
+});

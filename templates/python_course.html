@@ -8,7 +8,10 @@
 </head>
 <body>
     <header>
-        <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+        <div class="header-title">
+            <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+            <span id="current-time" class="time-display"></span>
+        </div>
 
         <div class="auth-container">
             <button class="new-btn" data-tooltip="Осталось просмотров ответов">
@@ -25,6 +28,12 @@
             {% endif %}
         </div>
     </header>
+
+    <main>
+        <div class="course-unavailable">
+            Курс пока что не доступен
+        </div>
+    </main>
 
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
