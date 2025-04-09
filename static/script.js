@@ -351,15 +351,41 @@ function updateSolutionsCount(newCount) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ count: newCount })
+        body: JSON.stringify({
+            count: newCount,
+            email: "{{ user.split(' ')[1] }}"  // Предполагаем, что email - часть session["user"]
+        })
     })
     .then(response => response.json())
     .then(data => {
         if (data.error) {
             console.error('Ошибка обновления счетчика:', data.error);
         }
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
     });
 }
+
+// Функция для открытия модального окна с просмотрами
+function openViewsModal() {
+    const modal = document.getElementById('viewsModal');
+    modal.style.display = 'flex';
+}
+
+// Функция для закрытия модального окна с просмотрами
+function closeViewsModal() {
+    const modal = document.getElementById('viewsModal');
+    modal.style.display = 'none';
+}
+
+// Обработчик клика вне модального окна
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('viewsModal');
+    if (event.target === modal) {
+        closeViewsModal();
+    }
+});
+
+// Добавить в конец файла script.js
+document.querySelector('.new-btn').addEventListener('click', function(event) {
+    event.preventDefault();
+    openViewsModal();
+});

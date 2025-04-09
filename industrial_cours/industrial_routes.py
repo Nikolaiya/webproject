@@ -8,32 +8,6 @@ industrial_bp = Blueprint('industrial', __name__,
                         static_url_path='/industrial-static',
                         template_folder='templates')
 
-
-def init_db():
-    conn = sqlite3.connect('materials.db')
-    cursor = conn.cursor()
-
-    # Удаляем старую таблицу (если существует)
-    cursor.execute('DROP TABLE IF EXISTS user_solutions')
-
-    # Создаем новую таблицу без внешнего ключа
-    cursor.execute('''
-    CREATE TABLE user_solutions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        task_id INTEGER NOT NULL,
-        user_id INTEGER,  -- Просто храним ID, без связи с другой БД
-        username TEXT,    -- Добавляем поле для имени пользователя
-        solution_text TEXT NOT NULL,
-        created_at TEXT NOT NULL
-    )
-    ''')
-
-    conn.commit()
-    conn.close()
-
-
-init_db()
-
 def get_db_connection():
     conn = sqlite3.connect('materials.db')
     conn.row_factory = sqlite3.Row
@@ -150,17 +124,32 @@ def get_solutions(task_id):
 
 @industrial_bp.route('/update-solutions-count', methods=['POST'])
 def update_solutions_count():
-    if 'user_id' not in session:
+    if 'user' not in session:
         return jsonify({'error': 'Требуется авторизация'}), 401
 
     new_count = request.json.get('count', 0)
+    email = request.json.get('email', '')
 
     if new_count < 0:
         new_count = 0
 
+    # Обновляем и сессию, и БД
     session['solutions_count'] = new_count
 
-    # Если нужно сохранять в БД, добавьте соответствующий код здесь
+    conn = get_db_connection()
+    try:
+        conn.execute('''
+            UPDATE users 
+            SET solutions_count = ?
+            WHERE email = ?
+            ORDER BY time DESC
+            LIMIT 1
+        ''', (new_count, email))
+        conn.commit()
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        conn.close()
 
     return jsonify({'success': True})
 

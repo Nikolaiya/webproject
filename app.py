@@ -147,7 +147,7 @@ def validate_register():
         conn.commit()
 
         session["user"] = f"{name} {surname}"
-        session["solutions_count"] = 0
+        session["solutions_count"] = 3
     except sqlite3.IntegrityError:
         return jsonify({"success": False, "message": "Пользователь с таким email уже зарегистрирован"})
     finally:
