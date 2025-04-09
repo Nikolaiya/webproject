@@ -32,36 +32,85 @@
     <main>
         <button class="back-btn" onclick="goBackToTopics()">←</button>
         <div class="task-container">
+            {% if user %}
+                <h1 class="task-title">Задание: Крест</h1>
 
-            <h1 class="task-title">Задание: Крест</h1>
+                <div class="task-description">
+                    <p>Напишите программу, которая считывает через стандартный поток ввода два целых числа, разделенных пробелом, и создает средствами библиотеки Pygame черное окно заданного размера, «перечеркнутое» белыми диагоналями толщиной в 5 пикселей.</p>
 
-            <div class="task-description">
-                <p>Напишите программу, которая считывает через стандартный поток ввода два целых числа, разделенных пробелом, и создает средствами библиотеки Pygame черное окно заданного размера, «перечеркнутое» белыми диагоналями толщиной в 5 пикселей.</p>
+                    <p>В случае, если пользователь ввел неверные значения (не целые числа или в неправильном формате), то программа должна печатать в командную строку сообщение «Неправильный формат ввода» и завершать работу.</p>
 
-                <p>В случае, если пользователь ввел неверные значения (не целые числа или в неправильном формате), то программа должна печатать в командную строку сообщение «Неправильный формат ввода» и завершать работу.</p>
+                    <p>Примечание: заголовок окна можно указать с помощью метода pygame.display.set_caption()</p>
 
-                <p>Примечание: заголовок окна можно указать с помощью метода pygame.display.set_caption()</p>
-
-                <img src="{{ url_for('static', filename='data/pygame_task_1.png') }}">
-            </div>
-
-            <div class="task-code">
-                <h3>Решение:</h3>
-                <pre><code>улюлю</code></pre>
-            </div>
-            <div class="custom-task-code">
-                <h3>Предложить своё решение:</h3>
-                <form id="solution-form">
-                    <textarea id="solution-text" class="solution-textarea" placeholder="Введите ваше решение здесь..."></textarea>
-                    <button type="submit" class="submit-solution-btn">Отправить решение</button>
-                </form>
-                <div class="solutions-container">
-                    <h4>Предложенные решения:</h4>
-                    <div id="solutions-list"></div>
+                    <img src="{{ url_for('static', filename='data/pygame_task_1.png') }}">
                 </div>
-            </div>
+
+                <div class="task-code">
+                    <h3>Решение:</h3>
+                    <button id="show-solution-btn" class="solution-btn">Показать решение</button>
+                    <div id="solution-content" style="display: none;">
+                        <pre><code>
+import pygame
+import sys
+
+
+def main():
+    try:
+        razmer1, razmer2 = map(int, input().split())
+        if razmer1 <= 0 or razmer2 <= 0:
+            ValueError("Введите корректное значение")
+    except ValueError as e:
+        print("Введите корректное значение")
+        return
+
+    pygame.init()
+    pygame.display.set_caption("Крест")
+    window = pygame.display.set_mode((razmer1, razmer2))
+    color = pygame.Color("white")
+
+    pygame.draw.line(window, color, (0, 0), (razmer1, razmer2), 5)
+    pygame.draw.line(window, color, (razmer1, 0), (0, razmer2), 5)
+
+    pygame.display.flip()
+
+    while pygame.event.wait().type != pygame.QUIT:
+        pass
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="custom-task-code">
+                    <h3>Предложить своё решение:</h3>
+                    <form id="solution-form">
+                        <textarea id="solution-text" class="solution-textarea" placeholder="Введите ваше решение здесь..."></textarea>
+                        <button type="submit" class="submit-solution-btn">Отправить решение</button>
+                    </form>
+                    <div class="solutions-container">
+                        <h4>Предложенные решения:</h4>
+                        <div id="solutions-list"></div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="not-authorized-message">
+                    Ошибка: для просмотра задания требуется авторизация!
+                </div>
+            {% endif %}
         </div>
     </main>
+
+    <!-- Модальное окно "Нет просмотров" -->
+    <div id="no-views-modal" class="no-views-modal">
+        <div class="no-views-modal-content">
+            <span class="close-no-views-modal" onclick="closeNoViewsModal()">×</span>
+            <div class="no-views-message">У вас закончились просмотры решений</div>
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='data/raw.png') }}" alt="Пример решения">
+            </div>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script src="{{ url_for('industrial.static', filename='js/industrial_script.js') }}"></script>

@@ -562,13 +562,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         solutionForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            const solutionText = document.getElementById('solution-text').value;
 
-            if (!document.querySelector('.user-btn')) {
-                showErrorModal();
+            if (!solutionText.trim()) {
+                alert('Решение не может быть пустым');
                 return;
             }
-
-            const solutionText = document.getElementById('solution-text').value;
 
             fetch(`/industrial-course/submit-solution/${taskId}`, {
                 method: 'POST',
@@ -590,5 +589,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Ошибка:', error);
             });
         });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const showSolutionBtn = document.getElementById('show-solution-btn');
+    const solutionContent = document.getElementById('solution-content');
+    const answerCountElement = document.getElementById('answer-count');
+    const noViewsModal = document.getElementById('no-views-modal');
+
+    if (showSolutionBtn && solutionContent) {
+        showSolutionBtn.addEventListener('click', function() {
+            const currentCount = parseInt(answerCountElement.textContent);
+
+            if (currentCount <= 0) {
+                // Показываем модальное окно вместо открытия нового окна
+                showNoViewsModal();
+                return;
+            }
+
+            // Показываем решение
+            solutionContent.style.display = 'block';
+            showSolutionBtn.style.display = 'none';
+
+            // Обновляем счетчик
+            answerCountElement.textContent = currentCount - 1;
+
+            // Отправляем обновление на сервер
+            updateSolutionsCount(currentCount - 1);
+        });
+    }
+});
+
+
+// Закрытие модального окна при клике вне его
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('no-views-modal');
+    if (event.target === modal) {
+        closeNoViewsModal();
     }
 });

@@ -330,3 +330,36 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTime();
     setInterval(updateTime, 1000);
 });
+
+function showNoViewsModal() {
+    const modal = document.getElementById('no-views-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function closeNoViewsModal() {
+    const modal = document.getElementById('no-views-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function updateSolutionsCount(newCount) {
+    fetch('/update-solutions-count', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ count: newCount })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Ошибка обновления счетчика:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
+}
