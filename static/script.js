@@ -203,12 +203,12 @@ function validateAccountData() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Если данные совпадают, открываем окно для ввода нового пароля
             closeAll();
+            document.getElementById("overlay").style.zIndex = "1500";
+            document.getElementById("newPasswordModal").style.zIndex = "2000"; // Добавьте эту строку
             document.getElementById("overlay").classList.add("active");
             document.getElementById("newPasswordModal").classList.add("active");
         } else {
-            // Если данные не совпадают, показываем сообщение об ошибке
             alert("Введённые вами данные аккаунта различны с данными регистрации");
         }
     })
@@ -346,20 +346,21 @@ function closeNoViewsModal() {
 }
 
 function updateSolutionsCount(newCount) {
-    fetch('/update-solutions-count', {
+    fetch('/update_solutions_count', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            count: newCount,
-            email: "{{ user.split(' ')[1] }}"  // Предполагаем, что email - часть session["user"]
+            count: newCount
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.error) {
             console.error('Ошибка обновления счетчика:', data.error);
+        } else {
+            document.getElementById('answer-count').textContent = newCount;
         }
     });
 }

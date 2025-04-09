@@ -20,15 +20,13 @@ def init_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            action TEXT NOT NULL,
-            ip TEXT NOT NULL,
-            time TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL,
             name TEXT NOT NULL,
             surname TEXT NOT NULL,
-            email TEXT NOT NULL,
-            password TEXT NOT NULL,
             birthdate TEXT,
-            solutions_count INTEGER DEFAULT 0
+            solutions_count INTEGER DEFAULT 3,
+            last_login TEXT
         )
     ''')
     conn.commit()
@@ -36,17 +34,50 @@ def init_db():
 
 init_db()
 
-
-def get_user_ip(): # Получает IP-адрес
+def get_user_ip():
+    """Получает IP-адрес пользователя с учетом заголовков прокси"""
     if request.headers.getlist("X-Forwarded-For"):
-        ip = request.headers.getlist("X-Forwarded-For")[0]
-    else:
-        ip = request.remote_addr
-    return ip
+        return request.headers.getlist("X-Forwarded-For")[0]
+    return request.remote_addr
+
+@app.route('/update_solutions_count', methods=['POST'])
+def update_solutions_count():
+    if 'email' not in session:
+        return jsonify({'error': 'Требуется авторизация'}), 401
+
+    new_count = request.json.get('count', 0)
+    email = session["email"]
+    ip = get_user_ip()
+    time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+
+    try:
+        # Получаем данные пользователя для создания новой записи
+        cursor.execute('SELECT name, surname, birthdate FROM users WHERE email = ? ORDER BY time DESC LIMIT 1',
+                       (email,))
+        user_data = cursor.fetchone()
+
+        if user_data:
+            name, surname, birthdate = user_data
+
+            # Создаем новую запись с обновленным счетчиком
+            cursor.execute('''
+                INSERT INTO users (action, ip, time, name, surname, email, password, birthdate, solutions_count)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', ("count_update", ip, time, name, surname, email, '', birthdate, new_count))
+
+            conn.commit()
+            session["solutions_count"] = new_count
+    finally:
+        conn.close()
+
+    return jsonify({'success': True})
 
 
 @app.route('/validate_login', methods=['POST'])
-def validate_login(): # Обрабатывает запрос на вход пользователя
+def validate_login():
     data = request.json
     email = data.get('email', '').strip()
     password = data.get('password', '').strip()
@@ -55,38 +86,57 @@ def validate_login(): # Обрабатывает запрос на вход по
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
 
-    cursor.execute('SELECT * FROM users WHERE ip = ?', (ip,))
-    existing_user = cursor.fetchone()
+    # 1. Сначала проверяем вход по IP (если email и пароль не указаны)
+    if not email and not password:
+        cursor.execute('SELECT * FROM users WHERE ip = ? ORDER BY time DESC LIMIT 1', (ip,))
+        existing_user = cursor.fetchone()
 
-    if existing_user:
-        name, surname, email, birthdate, solutions_count = existing_user[4], existing_user[5], existing_user[6], existing_user[8], existing_user[9]
-    else:
-        if not email or not password:
+        if existing_user:
+            # Используем данные из последней записи этого IP
+            session["user"] = f"{existing_user[4]} {existing_user[5]}"
+            session["solutions_count"] = existing_user[9]  # solutions_count
+            session["email"] = existing_user[6]  # email
+
+            # Создаем новую запись входа
+            time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            cursor.execute('''
+                INSERT INTO users (action, ip, time, name, surname, email, password, birthdate, solutions_count)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', ("login_by_ip", ip, time, existing_user[4], existing_user[5],
+                  existing_user[6], '', existing_user[8], existing_user[9]))
+            conn.commit()
             conn.close()
-            return jsonify({"success": False, "message": "Все поля должны быть заполнены"})
 
-        cursor.execute('SELECT * FROM users WHERE email = ? AND password = ?', (email, hash_password(password)))
-        user = cursor.fetchone()
-
-        if not user:
+            return jsonify({"success": True, "message": "Вход по IP выполнен успешно"})
+        else:
             conn.close()
-            return jsonify({"success": False, "message": "Неверный email или пароль"})
+            return jsonify({"success": False, "message": "Вход по IP невозможен. Введите email и пароль"})
 
-        name, surname, birthdate, solutions_count = user[4], user[5], user[8], user[9]
+    # 2. Обычная проверка по email и паролю
+    cursor.execute('SELECT * FROM users WHERE email = ? AND password = ? ORDER BY time DESC LIMIT 1',
+                   (email, hash_password(password)))
+    user = cursor.fetchone()
 
-    ip = get_user_ip()
+    if not user:
+        conn.close()
+        return jsonify({"success": False, "message": "Неверный email или пароль"})
+
+    # 3. Получаем текущий solutions_count
+    current_count = user[9]  # solutions_count находится в 9-й позиции
+
+    # 4. Создаем новую запись входа
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
     cursor.execute('''
         INSERT INTO users (action, ip, time, name, surname, email, password, birthdate, solutions_count)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', ("login", ip, time, name, surname, email, hash_password(password if password else ""), birthdate, solutions_count))
+    ''', ("login", ip, time, user[4], user[5], email, hash_password(password), user[8], current_count))
 
     conn.commit()
     conn.close()
 
-    session["user"] = f"{name} {surname}"
-    session["solutions_count"] = solutions_count
+    session["user"] = f"{user[4]} {user[5]}"
+    session["solutions_count"] = current_count
+    session["email"] = email
 
     return jsonify({"success": True, "message": "Вход выполнен успешно"})
 
@@ -115,8 +165,9 @@ def validate_register():
     email = data.get('email')
     password = data.get('password')
     repeat_password = data.get('repeat_password')
-    birthdate = data.get('birthdate')  # Получаем дату рождения
+    birthdate = data.get('birthdate')
 
+    # Существующая валидация...
     if not name or not surname or not email or not password or not repeat_password or not birthdate:
         return jsonify({"success": False, "message": "Все поля должны быть заполнены"})
 
@@ -140,6 +191,7 @@ def validate_register():
         ip = get_user_ip()
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        # Создаем запись регистрации
         cursor.execute('''
             INSERT INTO users (action, ip, time, name, surname, email, password, birthdate, solutions_count)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -148,6 +200,8 @@ def validate_register():
 
         session["user"] = f"{name} {surname}"
         session["solutions_count"] = 3
+        session["email"] = email
+
     except sqlite3.IntegrityError:
         return jsonify({"success": False, "message": "Пользователь с таким email уже зарегистрирован"})
     finally:
@@ -229,19 +283,8 @@ def python_course(): # Курс 1
 
 
 @app.route('/logout')
-def logout(): # Обрабатывает выход пользователя из системы
-    if "user" in session:
-        email = session["user"].split()[1]
-        solutions_count = session.get("solutions_count", 0)
-
-        conn = sqlite3.connect('users.db')
-        cursor = conn.cursor()
-        cursor.execute('UPDATE users SET solutions_count = ? WHERE email = ?', (solutions_count, email))
-        conn.commit()
-        conn.close()
-
-    session.pop("user", None)
-    session.pop("solutions_count", None)
+def logout():
+    session.clear()
     return redirect(url_for('home'))
 
 

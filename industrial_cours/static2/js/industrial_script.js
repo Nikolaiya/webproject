@@ -594,29 +594,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const showSolutionBtn = document.getElementById('show-solution-btn');
-    const solutionContent = document.getElementById('solution-content');
-    const answerCountElement = document.getElementById('answer-count');
-    const noViewsModal = document.getElementById('no-views-modal');
-
-    if (showSolutionBtn && solutionContent) {
+    if (showSolutionBtn) {
         showSolutionBtn.addEventListener('click', function() {
-            const currentCount = parseInt(answerCountElement.textContent);
+            const currentCount = parseInt(document.getElementById('answer-count').textContent);
 
             if (currentCount <= 0) {
-                // Показываем модальное окно вместо открытия нового окна
                 showNoViewsModal();
                 return;
             }
 
             // Показываем решение
-            solutionContent.style.display = 'block';
+            document.getElementById('solution-content').style.display = 'block';
             showSolutionBtn.style.display = 'none';
 
             // Обновляем счетчик
-            answerCountElement.textContent = currentCount - 1;
-
-            // Отправляем обновление на сервер
-            updateSolutionsCount(currentCount - 1);
+            const newCount = currentCount - 1;
+            updateSolutionsCount(newCount);
         });
     }
 });
