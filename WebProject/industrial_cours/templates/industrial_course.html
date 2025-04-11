@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основы промышленного программирования</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('industrial.static', filename='css/industrial_styles.css') }}?v=2">
+    <script src="{{ url_for('industrial.static', filename='js/industrial_script.js') }}"></script>
+</head>
+<body>
+    <header>
+        <div class="header-left-group">
+            <div class="header-title">
+                <a href="{{ url_for('home') }}" class="title">Учебное Хранилище</a>
+                <span id="current-time" class="time-display"></span>
+            </div>
+
+            <div class="search-container">
+                <input type="text" placeholder="Поиск по темам и заданиям..." class="search-input" id="searchInput">
+                <button class="search-btn" id="searchBtn">
+                    <img src="{{ url_for('static', filename='data/search-icon.png') }}" alt="Поиск" width="30" height="25">
+                </button>
+            </div>
+        </div>
+
+        <div class="header-right-group">
+            <button class="filter-btn" onclick="toggleFilterMenu()">
+                <img src="{{ url_for('static', filename='data/settings-icon.png') }}" alt="Фильтр" width="30" height="30">
+            </button>
+
+            <button class="new-btn" data-tooltip="Осталось просмотров ответов">
+                <span id="answer-count">{{ solutions_count }}</span>
+                <img src="{{ url_for('static', filename='data/img.png') }}" alt="Icon" class="btn-icon" width="25" height="25">
+            </button>
+
+            {% if user %}
+                <button class="user-btn" onclick="toggleMenu()">{{ user }}</button>
+                <div class="user-menu" id="userMenu">
+                    <a href="{{ url_for('logout') }}" class="logout-btn">↩ Выйти</a>
+                </div>
+            {% else %}
+                <button class="auth-btn" onclick="openLogin()">Вход/Регистрация</button>
+            {% endif %}
+        </div>
+
+        <div class="filter-menu" id="filterMenu">
+            <div class="filter-header">Фильтр тем</div>
+            <div class="filter-options">
+            </div>
+            <button class="apply-filter-btn" onclick="applyFilter()">Применить</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="topic-container">
+            {% for topic in topics_data %}
+            <div class="topic-container-item" data-topic-id="{{ topic.topic.id }}">
+                <div class="topic-box"
+                     data-topic-id="{{ topic.topic.id }}"
+                     onclick="handleTopicClick(event)">
+                    <span class="button-text">{{ topic.topic.title }}</span>
+                    <span class="additional-text">Быстрый доступ</span>
+                    <button class="arrow-btn" onclick="toggleArrow(event, this)">▼</button>
+                </div>
+                <div class="expandable-content">
+                    <div class="content-container"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <div id="loginModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Вход в аккаунт</h2>
+        <hr>
+
+        <div class="date-container">
+            <input type="email" id="login-email" placeholder="Введите адрес электронной почты">
+        </div>
+
+        <div class="password-container">
+            <input type="password" id="login-password" placeholder="Введите пароль">
+        </div>
+
+        <a href="#" class="forgot-password">Забыли пароль?</a>
+
+        <div class="modal-footer">
+            <a href="#" class="register-link" onclick="openRegister()">Зарегистрироваться</a>
+            <button id="login-btn" class="modal-btn">Войти</button>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Регистрация</h2>
+        <hr>
+        <div class="date-container">
+            <input type="text" id="name" placeholder="Введите имя">
+        </div>
+        <div class="date-container">
+            <input type="text" id="surname" placeholder="Введите Фамилию">
+        </div>
+        <div class="date-container">
+            <input type="email" id="email" placeholder="Введите электронную почту" autocomplete="email">
+        </div>
+        <div class="date-container">
+            <input type="text" id="birthdate" placeholder="дд.мм.гг">
+        </div>
+        <div class="password-container">
+            <input type="password" id="password" placeholder="Введите пароль">
+        </div>
+        <div class="password-container">
+            <input type="password" id="repeatPassword" placeholder="Введите повторный пароль">
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="register-link" onclick="openLogin()">Вернуться к входу</a>
+            <button id="register-btn" class="modal-btn">Зарегистрироваться</button>
+        </div>
+    </div>
+
+    <div id="forgotPasswordModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Восстановление пароля</h2>
+        <hr>
+
+        <div class="date-container">
+            <input type="text" id="forgot-name" placeholder="Введите имя">
+        </div>
+        <div class="date-container">
+            <input type="text" id="forgot-surname" placeholder="Введите фамилию">
+        </div>
+        <div class="date-container">
+            <input type="email" id="forgot-email" placeholder="Введите электронную почту">
+        </div>
+        <div class="date-container">
+            <input type="text" id="forgot-birthdate" placeholder="Введите дату рождения (дд.мм.гггг)">
+        </div>
+
+        <div class="modal-footer">
+            <button id="forgot-submit-btn" class="modal-btn">Продолжить</button>
+        </div>
+    </div>
+
+    <div id="newPasswordModal" class="modal">
+        <button class="close-btn" onclick="closeAll()">✖</button>
+        <h2>Введите новый пароль</h2>
+        <hr>
+
+        <div class="password-container">
+            <input type="password" id="new-password" placeholder="Введите новый пароль">
+        </div>
+        <div class="password-container">
+            <input type="password" id="confirm-new-password" placeholder="Подтвердите новый пароль">
+        </div>
+
+        <div class="modal-footer">
+            <button id="new-password-submit-btn" class="modal-btn">Сохранить</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <div id="authErrorModal" class="error-modal">
+        <div class="error-modal-content">
+            <div class="error-icon">❗</div>
+            <div class="error-message">Ошибка: для начала войдите в аккаунт!</div>
+            <button class="close-error-btn" onclick="closeErrorModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="viewsModal" class="no-views-modal">
+        <div class="no-views-modal-content">
+            <span class="close-no-views-modal" onclick="closeViewsModal()"></span>
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='data/raw.png') }}" alt="Пример решения">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
