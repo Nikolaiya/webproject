@@ -100,30 +100,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Функция для валидации входа
-function validateLogin() {
+async function validateLogin() {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
-    fetch('/validate_login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-    })
-    .then(response => response.json())
-    .then(data => {
+    try {
+        const response = await fetch('/validate_login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
         if (data.success) {
             window.location.href = '/';
         } else {
             alert(data.message);
         }
-    })
-    .catch(error => console.error('Ошибка:', error));
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
 
 // Функция для валидации регистрации
-function validateRegister() {
+async function validateRegister() {
     const name = document.getElementById("name").value;
     const surname = document.getElementById("surname").value;
     const email = document.getElementById("email").value;
@@ -131,22 +130,21 @@ function validateRegister() {
     const repeatPassword = document.getElementById("repeatPassword").value;
     const birthdate = document.getElementById("birthdate").value;
 
-    fetch('/validate_register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, surname, email, password, repeat_password: repeatPassword, birthdate }),
-    })
-    .then(response => response.json())
-    .then(data => {
+    try {
+        const response = await fetch('/validate_register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, surname, email, password, repeat_password: repeatPassword, birthdate }),
+        });
+        const data = await response.json();
         if (data.success) {
             window.location.href = '/';
         } else {
             alert(data.message);
         }
-    })
-    .catch(error => console.error('Ошибка:', error));
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
 
 // Функция для переключения меню пользователя
@@ -188,21 +186,19 @@ document.querySelector(".forgot-password").addEventListener("click", function (e
 });
 
 // Функция для проверки данных аккаунта
-function validateAccountData() {
+async function validateAccountData() {
     const name = document.getElementById("forgot-name").value;
     const surname = document.getElementById("forgot-surname").value;
     const email = document.getElementById("forgot-email").value;
     const birthdate = document.getElementById("forgot-birthdate").value;
 
-    fetch('/validate_account_data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, surname, email, birthdate }),
-    })
-    .then(response => response.json())
-    .then(data => {
+    try {
+        const response = await fetch('/validate_account_data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, surname, email, birthdate }),
+        });
+        const data = await response.json();
         if (data.success) {
             closeAll();
             document.getElementById("overlay").style.zIndex = "1500";
@@ -212,8 +208,9 @@ function validateAccountData() {
         } else {
             alert("Введённые вами данные аккаунта различны с данными регистрации");
         }
-    })
-    .catch(error => console.error('Ошибка:', error));
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
 
 // Добавляем обработчик для кнопки "Продолжить" в окне восстановления пароля
@@ -272,35 +269,29 @@ document.querySelectorAll('.task-box').forEach(task => {
 });
 
 // функция работы с api для отображения времени
-function updateTime() {
-    fetch('http://worldtimeapi.org/api/timezone/Europe/Moscow')
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
-        .then(data => {
-            const datetime = new Date(data.datetime);
-            const timeString = datetime.toLocaleTimeString('ru-RU', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            });
-
-            const timeElement = document.getElementById('current-time');
-            if (timeElement) {
-                timeElement.textContent = timeString;
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка при получении времени:', error);
-            const now = new Date();
-            const timeElement = document.getElementById('current-time');
-            if (timeElement) {
-                timeElement.textContent = now.toLocaleTimeString('ru-RU');
-                timeElement.title = "Локальное время";
-            }
+async function updateTime() {
+    try {
+        const response = await fetch('http://worldtimeapi.org/api/timezone/Europe/Moscow');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        const datetime = new Date(data.datetime);
+        const timeString = datetime.toLocaleTimeString('ru-RU', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
         });
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) timeElement.textContent = timeString;
+    } catch (error) {
+        console.error('Ошибка при получении времени:', error);
+        const now = new Date();
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) {
+            timeElement.textContent = now.toLocaleTimeString('ru-RU');
+            timeElement.title = "Локальное время";
+        }
+    }
 }
 
 // Инициализация часов
@@ -330,24 +321,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Функция для обновления количества доступных решений при клике на кнопку показать решение
-function updateSolutionsCount(newCount) {
-    fetch('/update_solutions_count', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            count: newCount
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
+async function updateSolutionsCount(newCount) {
+    try {
+        const response = await fetch('/update_solutions_count', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ count: newCount }),
+        });
+        const data = await response.json();
         if (data.error) {
             console.error('Ошибка обновления счетчика:', data.error);
         } else {
             document.getElementById('answer-count').textContent = newCount;
         }
-    });
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
 }
 
 // Функция для открытия модального окна с покупкой решений

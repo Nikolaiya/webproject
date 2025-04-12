@@ -55,8 +55,7 @@ function handleTopicClick(event) {
 }
 
 // Основная функция для загрузки и отображения заданий
-function loadTasksForTopic(topicId, container) {
-
+async function loadTasksForTopic(topicId, container) {
     if (!document.querySelector('.user-btn')) {
         container.innerHTML = `
             <div class="not-authorized-message">
@@ -68,26 +67,25 @@ function loadTasksForTopic(topicId, container) {
 
     container.innerHTML = '<div class="loading-content">Загрузка заданий...</div>';
 
-        fetch(`/industrial-course/get-tasks/${topicId}`)
-        .then(response => {
-            if (!response.ok) throw new Error('Сервер вернул ошибку');
-            return response.json();
-        })
-        .then(data => {
-            if (!data || !Array.isArray(data.tasks)) {
-                throw new Error('Неверный формат данных');
-            }
-            updateTopicTasks(topicId, data.tasks);
-            renderTasksContent(data, container);
-        })
-        .catch(error => {
-            console.error("Ошибка:", error);
-            container.innerHTML = `
-                <div class="error-content">
-                    Ошибка: ${error.message}
-                </div>
-            `;
-        });
+    try {
+        const response = await fetch(`/industrial-course/get-tasks/${topicId}`);
+        if (!response.ok) throw new Error('Сервер вернул ошибку');
+
+        const data = await response.json();
+        if (!data || !Array.isArray(data.tasks)) {
+            throw new Error('Неверный формат данных');
+        }
+
+        updateTopicTasks(topicId, data.tasks);
+        renderTasksContent(data, container);
+    } catch (error) {
+        console.error("Ошибка:", error);
+        container.innerHTML = `
+            <div class="error-content">
+                Ошибка: ${error.message}
+            </div>
+        `;
+    }
 }
 
 // Функция для отрисовки заданий в expandable-content
@@ -178,27 +176,26 @@ function showNotAuthorized() {
 }
 
 // Загружает задания для темы
-function loadTasks(topicId) {
-    fetch(`/industrial-course/get-tasks/${topicId}`)
-        .then(response => {
-            if (!response.ok) throw new Error('Сервер вернул ошибку');
-            return response.json();
-        })
-        .then(data => {
-            if (!data || !Array.isArray(data.tasks)) {
-                throw new Error('Неверный формат данных');
-            }
-            renderTasks(data.tasks);
-        })
-        .catch(error => {
-            console.error("Ошибка:", error);
-            const container = document.querySelector('.pygame-tasks-container');
-            container.innerHTML = `
-                <div class="error-content">
-                    Ошибка загрузки заданий: ${error.message}
-                </div>
-            `;
-        });
+async function loadTasks(topicId) {
+    try {
+        const response = await fetch(`/industrial-course/get-tasks/${topicId}`);
+        if (!response.ok) throw new Error('Сервер вернул ошибку');
+
+        const data = await response.json();
+        if (!data || !Array.isArray(data.tasks)) {
+            throw new Error('Неверный формат данных');
+        }
+
+        renderTasks(data.tasks);
+    } catch (error) {
+        console.error("Ошибка:", error);
+        const container = document.querySelector('.pygame-tasks-container');
+        container.innerHTML = `
+            <div class="error-content">
+                Ошибка загрузки заданий: ${error.message}
+            </div>
+        `;
+    }
 }
 
 // Отображает задания на странице
@@ -474,28 +471,28 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Загрузка решений при открытии страницы задания
-function loadSolutions(taskId) {
-    fetch(`/industrial-course/get-solutions/${taskId}`)
-        .then(response => response.json())
-        .then(data => {
-            const solutionsList = document.getElementById('solutions-list');
-            if (data.solutions && data.solutions.length > 0) {
-                solutionsList.innerHTML = data.solutions.map(solution => `
-                    <div class="solution-item">
-                        <div class="solution-header">
-                            <span>${solution.username}</span>
-                            <span>${new Date(solution.created_at).toLocaleString()}</span>
-                        </div>
-                        <div class="solution-content">${solution.solution_text}</div>
+async function loadSolutions(taskId) {
+    try {
+        const response = await fetch(`/industrial-course/get-solutions/${taskId}`);
+        const data = await response.json();
+        const solutionsList = document.getElementById('solutions-list');
+
+        if (data.solutions?.length > 0) {
+            solutionsList.innerHTML = data.solutions.map(solution => `
+                <div class="solution-item">
+                    <div class="solution-header">
+                        <span>${solution.username}</span>
+                        <span>${new Date(solution.created_at).toLocaleString()}</span>
                     </div>
-                `).join('');
-            } else {
-                solutionsList.innerHTML = '<p>Пока нет предложенных решений</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки решений:', error);
-        });
+                    <div class="solution-content">${solution.solution_text}</div>
+                </div>
+            `).join('');
+        } else {
+            solutionsList.innerHTML = '<p>Пока нет предложенных решений</p>';
+        }
+    } catch (error) {
+        console.error('Ошибка загрузки решений:', error);
+    }
 }
 
 // Отправка своего решения

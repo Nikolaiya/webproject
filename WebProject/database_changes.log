@@ -511,3 +511,224 @@
 2025-04-12 04:53:56 - INFO - 127.0.0.1 - - [12/Apr/2025 04:53:56] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
 2025-04-12 04:53:56 - INFO - 127.0.0.1 - - [12/Apr/2025 04:53:56] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
 2025-04-12 04:53:58 - INFO - 127.0.0.1 - - [12/Apr/2025 04:53:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-13 02:09:03 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-13 02:09:03 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-13 02:09:03 - INFO -  * Restarting with stat
+2025-04-13 02:09:03 - WARNING -  * Debugger is active!
+2025-04-13 02:09:03 - INFO -  * Debugger PIN: 287-353-754
+2025-04-13 02:09:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:13] "GET / HTTP/1.1" 200 -
+2025-04-13 02:09:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-13 02:09:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:15] "GET / HTTP/1.1" 200 -
+2025-04-13 02:09:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:15] "GET /static/styles.css HTTP/1.1" 200 -
+2025-04-13 02:09:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:15] "GET /static/data/raw.png HTTP/1.1" 200 -
+2025-04-13 02:09:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:15] "GET /static/data/img.png HTTP/1.1" 200 -
+2025-04-13 02:09:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:15] "GET /static/script.js HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/ HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /static/data/search-icon.png HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /static/data/settings-icon.png HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/get-tasks/2 HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/get-tasks/3 HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/get-tasks/4 HTTP/1.1" 200 -
+2025-04-13 02:09:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:16] "GET /industrial-course/get-tasks/5 HTTP/1.1" 200 -
+2025-04-13 02:09:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:17] "GET / HTTP/1.1" 200 -
+2025-04-13 02:09:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:17] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:09:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:17] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:09:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:17] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:09:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:09:17] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:11:16 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-13 02:11:16 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-13 02:11:16 - INFO -  * Restarting with stat
+2025-04-13 02:11:17 - WARNING -  * Debugger is active!
+2025-04-13 02:11:17 - INFO -  * Debugger PIN: 287-353-754
+2025-04-13 02:11:20 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-13 02:11:20 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-13 02:11:20 - INFO -  * Restarting with stat
+2025-04-13 02:11:20 - WARNING -  * Debugger is active!
+2025-04-13 02:11:20 - INFO -  * Debugger PIN: 287-353-754
+2025-04-13 02:11:21 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:21] "GET / HTTP/1.1" 200 -
+2025-04-13 02:11:21 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:21] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:11:21 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:21] "GET /static/script.js HTTP/1.1" 200 -
+2025-04-13 02:11:21 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:21] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:11:21 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:21] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:11:23 - INFO - [login_by_ip] Вход по IP: 127.0.0.1, email: ывфывфыв@
+2025-04-13 02:11:23 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:23] "POST /validate_login HTTP/1.1" 200 -
+2025-04-13 02:11:23 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:23] "GET / HTTP/1.1" 200 -
+2025-04-13 02:11:23 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:23] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:11:23 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:23] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:11:23 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:23] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:11:23 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:23] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "GET / HTTP/1.1" 200 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:11:24 - INFO - 127.0.0.1 - - [13/Apr/2025 02:11:24] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:09 - INFO - [register] Зарегистрирован: metelkin_2007@mail.ru, IP: 127.0.0.1
+2025-04-13 02:12:09 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:09] "POST /validate_register HTTP/1.1" 200 -
+2025-04-13 02:12:09 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:09] "GET / HTTP/1.1" 200 -
+2025-04-13 02:12:09 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:09] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:09 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:09] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:09 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:09] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:09 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:09] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:11 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:11] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-13 02:12:11 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:11] "GET / HTTP/1.1" 200 -
+2025-04-13 02:12:11 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:11] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:11 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:11] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:11 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:11] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:11 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:11] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:12 - INFO - [login_by_ip] Вход по IP: 127.0.0.1, email: metelkin_2007@mail.ru
+2025-04-13 02:12:12 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:12] "POST /validate_login HTTP/1.1" 200 -
+2025-04-13 02:12:12 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:12] "GET / HTTP/1.1" 200 -
+2025-04-13 02:12:12 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:12] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:12 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:12] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:12 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:12] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:12 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:12] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:13] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-04-13 02:12:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:13] "GET / HTTP/1.1" 200 -
+2025-04-13 02:12:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:13] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:13] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:13] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:13 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:13] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:14 - INFO - [login_by_ip] Вход по IP: 127.0.0.1, email: metelkin_2007@mail.ru
+2025-04-13 02:12:14 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:14] "POST /validate_login HTTP/1.1" 200 -
+2025-04-13 02:12:14 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:14] "GET / HTTP/1.1" 200 -
+2025-04-13 02:12:14 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:14] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:14 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:14] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:14 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:14] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:14 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:14] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "GET /industrial-course/ HTTP/1.1" 200 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /static/data/search-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "[36mGET /static/data/settings-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "GET /industrial-course/get-tasks/2 HTTP/1.1" 200 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "GET /industrial-course/get-tasks/3 HTTP/1.1" 200 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "GET /industrial-course/get-tasks/4 HTTP/1.1" 200 -
+2025-04-13 02:12:15 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:15] "GET /industrial-course/get-tasks/5 HTTP/1.1" 200 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "GET /industrial-course/pygame1 HTTP/1.1" 200 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:16 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:16] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "GET /industrial-course/pygame1/task/1 HTTP/1.1" 200 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "GET /static/data/pygame_task_1.png HTTP/1.1" 200 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:12:17 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:17] "GET /industrial-course/get-solutions/1 HTTP/1.1" 200 -
+2025-04-13 02:12:18 - INFO - [count_update] metelkin_2007@mail.ru изменение количество решений на 2 с IP 127.0.0.1
+2025-04-13 02:12:18 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:18] "POST /update_solutions_count HTTP/1.1" 200 -
+2025-04-13 02:12:19 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:19] "GET / HTTP/1.1" 200 -
+2025-04-13 02:12:19 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:19] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:12:19 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:19] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:12:19 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:19] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:12:19 - INFO - 127.0.0.1 - - [13/Apr/2025 02:12:19] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:30 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-13 02:14:30 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-13 02:14:30 - INFO -  * Restarting with stat
+2025-04-13 02:14:30 - WARNING -  * Debugger is active!
+2025-04-13 02:14:30 - INFO -  * Debugger PIN: 287-353-754
+2025-04-13 02:14:32 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:32] "GET / HTTP/1.1" 200 -
+2025-04-13 02:14:32 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:32] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:32 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:32] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:32 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:32] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:32 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:32] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/ HTTP/1.1" 200 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1" 200 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /static/data/search-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "[36mGET /static/data/settings-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/get-tasks/2 HTTP/1.1" 200 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/get-tasks/3 HTTP/1.1" 200 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/get-tasks/4 HTTP/1.1" 200 -
+2025-04-13 02:14:33 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:33] "GET /industrial-course/get-tasks/5 HTTP/1.1" 200 -
+2025-04-13 02:14:34 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:34] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:36 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:36] "GET /industrial-course/get-tasks/5 HTTP/1.1" 200 -
+2025-04-13 02:14:37 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:37] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "GET /industrial-course/pygame1/task/1 HTTP/1.1" 200 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /static/data/pygame_task_1.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:38 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:38] "GET /industrial-course/get-solutions/1 HTTP/1.1" 200 -
+2025-04-13 02:14:41 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:41] "POST /industrial-course/submit-solution/1 HTTP/1.1" 200 -
+2025-04-13 02:14:41 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:41] "GET /industrial-course/get-solutions/1 HTTP/1.1" 200 -
+2025-04-13 02:14:42 - INFO - [count_update] metelkin_2007@mail.ru изменение количество решений на 1 с IP 127.0.0.1
+2025-04-13 02:14:42 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:42] "POST /update_solutions_count HTTP/1.1" 200 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "GET /industrial-course/ HTTP/1.1" 200 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /static/data/search-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "[36mGET /static/data/settings-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "GET /industrial-course/get-tasks/2 HTTP/1.1" 200 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "GET /industrial-course/get-tasks/3 HTTP/1.1" 200 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "GET /industrial-course/get-tasks/4 HTTP/1.1" 200 -
+2025-04-13 02:14:48 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:48] "GET /industrial-course/get-tasks/5 HTTP/1.1" 200 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "GET /industrial-course/pygame1 HTTP/1.1" 200 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:49 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:49] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/pygame1 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/ HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /industrial-course/industrial-static/css/industrial_styles.css?v=2 HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /industrial-course/industrial-static/js/industrial_script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/data/raw.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/data/img.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/data/search-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "[36mGET /static/data/settings-icon.png HTTP/1.1[0m" 304 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/get-tasks/1 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/get-tasks/2 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/get-tasks/3 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/get-tasks/4 HTTP/1.1" 200 -
+2025-04-13 02:14:51 - INFO - 127.0.0.1 - - [13/Apr/2025 02:14:51] "GET /industrial-course/get-tasks/5 HTTP/1.1" 200 -
